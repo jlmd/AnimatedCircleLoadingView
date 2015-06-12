@@ -2,12 +2,11 @@ package com.jlmd.android.circularloadinganimation.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.ViewGroup;
-import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import com.jlmd.android.circularloadinganimation.view.component.LeftOutlineView;
+import com.jlmd.android.circularloadinganimation.view.animator.AnimatorHelper;
+import com.jlmd.android.circularloadinganimation.view.component.LeftArcView;
 import com.jlmd.android.circularloadinganimation.view.component.MainCircleView;
+import com.jlmd.android.circularloadinganimation.view.component.RightArcView;
 import com.jlmd.android.circularloadinganimation.view.component.RightCircleView;
 
 /**
@@ -18,7 +17,9 @@ public class CircleLoadingView extends FrameLayout {
   private final Context context;
   private MainCircleView mainCircle;
   private RightCircleView rightCircle;
-  private LeftOutlineView leftOutlineView;
+  private LeftArcView leftArcView;
+  private RightArcView rightArcView;
+  private AnimatorHelper animatorHelper;
 
   public CircleLoadingView(Context context) {
     super(context);
@@ -41,22 +42,30 @@ public class CircleLoadingView extends FrameLayout {
   private void init() {
     initComponents();
     addComponentsViews();
+    initAnimatorHelper();
     startAnimation();
   }
 
   private void initComponents() {
     mainCircle = new MainCircleView(context);
     rightCircle = new RightCircleView(context);
-    leftOutlineView = new LeftOutlineView(context);
+    leftArcView = new LeftArcView(context);
+    rightArcView = new RightArcView(context);
   }
 
   private void addComponentsViews() {
     addView(mainCircle);
     addView(rightCircle);
+    addView(leftArcView);
+    addView(rightArcView);
+  }
+
+  private void initAnimatorHelper() {
+    animatorHelper = new AnimatorHelper();
+    animatorHelper.setComponentAnimations(mainCircle, rightCircle, leftArcView, rightArcView);
   }
 
   private void startAnimation() {
-    mainCircle.startAnimation();
-    rightCircle.startAnimation();
+    animatorHelper.startAnimator();
   }
 }

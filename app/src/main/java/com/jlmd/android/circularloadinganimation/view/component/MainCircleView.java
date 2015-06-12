@@ -13,7 +13,7 @@ import com.jlmd.android.circularloadinganimation.R;
 /**
  * @author jlmd
  */
-public class MainCircleView extends View {
+public class MainCircleView extends View implements ComponentAnimation{
 
   public MainCircleView(Context context) {
     super(context);
@@ -40,11 +40,12 @@ public class MainCircleView extends View {
     canvas.drawCircle(getWidth() / 2, getHeight() / 2, 30, paint);
   }
 
-  public void startAnimation() {
-    startFirstAnimation();
+  @Override
+  public void startAnimation(Callback callback) {
+    startFirstAnimation(callback);
   }
 
-  private void startFirstAnimation() {
+  private void startFirstAnimation(final Callback callback) {
     ObjectAnimator translationY = ObjectAnimator.ofFloat(this, "translationY", 0, -255);
     // TODO Add alpha animation
     ObjectAnimator scaleDownX = ObjectAnimator.ofFloat(this, "scaleX", 2.3f);
@@ -61,7 +62,7 @@ public class MainCircleView extends View {
 
       @Override
       public void onAnimationEnd(Animator animation) {
-        startSecondStepAnimation();
+        startSecondStepAnimation(callback);
       }
 
       @Override
@@ -77,9 +78,30 @@ public class MainCircleView extends View {
     scaleUp.start();
   }
 
-  private void startSecondStepAnimation() {
+  private void startSecondStepAnimation(final Callback callback) {
     ObjectAnimator translationY = ObjectAnimator.ofFloat(this, "translationY", -255, 270);
     translationY.setDuration(700);
+    translationY.addListener(new Animator.AnimatorListener() {
+      @Override
+      public void onAnimationStart(Animator animation) {
+        // Empty
+      }
+
+      @Override
+      public void onAnimationEnd(Animator animation) {
+        callback.onAnimationFinished();
+      }
+
+      @Override
+      public void onAnimationCancel(Animator animation) {
+        // Empty
+      }
+
+      @Override
+      public void onAnimationRepeat(Animator animation) {
+        // Empty
+      }
+    });
     translationY.start();
   }
 }
