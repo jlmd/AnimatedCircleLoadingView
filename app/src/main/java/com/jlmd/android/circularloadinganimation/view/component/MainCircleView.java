@@ -7,6 +7,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import com.jlmd.android.circularloadinganimation.R;
 
@@ -79,9 +80,21 @@ public class MainCircleView extends View implements ComponentAnimation{
   }
 
   private void startSecondStepAnimation(final Callback callback) {
-    ObjectAnimator translationY = ObjectAnimator.ofFloat(this, "translationY", -255, 270);
+    ObjectAnimator translationY = ObjectAnimator.ofFloat(this, "translationY", -255, 600);
     translationY.setDuration(700);
-    translationY.addListener(new Animator.AnimatorListener() {
+    translationY.start();
+    startThirdStepAnimation(callback);
+  }
+
+  private void startThirdStepAnimation(final Callback callback) {
+    ObjectAnimator scaleUpX = ObjectAnimator.ofFloat(this, "scaleX", 7.5f);
+    ObjectAnimator scaleUpY = ObjectAnimator.ofFloat(this, "scaleY", 7.5f);
+
+    AnimatorSet scaleUp = new AnimatorSet();
+    scaleUp.play(scaleUpX).with(scaleUpY);
+    scaleUp.setDuration(75);
+    scaleUp.setStartDelay(460);
+    scaleUp.addListener(new Animator.AnimatorListener() {
       @Override
       public void onAnimationStart(Animator animation) {
         // Empty
@@ -102,6 +115,6 @@ public class MainCircleView extends View implements ComponentAnimation{
         // Empty
       }
     });
-    translationY.start();
+    scaleUp.start();
   }
 }
