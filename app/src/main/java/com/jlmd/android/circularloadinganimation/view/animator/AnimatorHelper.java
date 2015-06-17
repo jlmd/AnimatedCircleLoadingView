@@ -26,12 +26,6 @@ public class AnimatorHelper {
             // Empty
           }
         });
-        componentAnimations.get(3).startAnimation(new ComponentAnimation.Callback() {
-          @Override
-          public void onAnimationFinished() {
-            // Empty
-          }
-        });
       }
     });
     componentAnimations.get(1).startAnimation(new ComponentAnimation.Callback() {
