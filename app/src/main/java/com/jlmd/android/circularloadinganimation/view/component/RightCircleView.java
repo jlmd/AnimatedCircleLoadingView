@@ -14,7 +14,7 @@ import com.jlmd.android.circularloadinganimation.R;
 /**
  * @author jlmd
  */
-public class RightCircleView extends View implements ComponentAnimation {
+public class RightCircleView extends ComponentViewAnimation {
 
   public RightCircleView(Context context) {
     super(context);

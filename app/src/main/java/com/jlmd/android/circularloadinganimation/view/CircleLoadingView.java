@@ -4,10 +4,11 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 import com.jlmd.android.circularloadinganimation.view.animator.AnimatorHelper;
-import com.jlmd.android.circularloadinganimation.view.component.SideArcsView;
+import com.jlmd.android.circularloadinganimation.view.component.InitialCenterCircleView;
 import com.jlmd.android.circularloadinganimation.view.component.MainCircleView;
-import com.jlmd.android.circularloadinganimation.view.component.RightArcView;
+import com.jlmd.android.circularloadinganimation.view.component.TopCircleView;
 import com.jlmd.android.circularloadinganimation.view.component.RightCircleView;
+import com.jlmd.android.circularloadinganimation.view.component.SideArcsView;
 
 /**
  * @author jlmd
@@ -15,10 +16,13 @@ import com.jlmd.android.circularloadinganimation.view.component.RightCircleView;
 public class CircleLoadingView extends FrameLayout {
 
   private final Context context;
-  private MainCircleView mainCircle;
-  private RightCircleView rightCircle;
+
+  private InitialCenterCircleView initialCenterCircleView;
+  private RightCircleView rightCircleView;
   private SideArcsView sideArcsView;
-  private RightArcView rightArcView;
+  private MainCircleView mainCircleView;
+  private TopCircleView topCircleView;
+
   private AnimatorHelper animatorHelper;
 
   public CircleLoadingView(Context context) {
@@ -47,20 +51,25 @@ public class CircleLoadingView extends FrameLayout {
   }
 
   private void initComponents() {
-    mainCircle = new MainCircleView(context);
-    rightCircle = new RightCircleView(context);
+    initialCenterCircleView = new InitialCenterCircleView(context);
+    rightCircleView = new RightCircleView(context);
     sideArcsView = new SideArcsView(context);
+    topCircleView = new TopCircleView(context);
+    mainCircleView = new MainCircleView(context);
   }
 
   private void addComponentsViews() {
-    addView(mainCircle);
-    addView(rightCircle);
+    addView(initialCenterCircleView);
+    addView(rightCircleView);
     addView(sideArcsView);
+    addView(topCircleView);
+    addView(mainCircleView);
   }
 
   private void initAnimatorHelper() {
     animatorHelper = new AnimatorHelper();
-    animatorHelper.setComponentAnimations(mainCircle, rightCircle, sideArcsView);
+    animatorHelper.setComponentViewAnimations(initialCenterCircleView, rightCircleView,
+        sideArcsView, topCircleView, mainCircleView);
   }
 
   private void startAnimation() {

@@ -1,5 +1,6 @@
 package com.jlmd.android.circularloadinganimation.view.component;
 
+import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -13,7 +14,7 @@ import com.jlmd.android.circularloadinganimation.R;
 /**
  * @author jlmd
  */
-public class SideArcsView extends View implements ComponentAnimation {
+public class SideArcsView extends ComponentViewAnimation {
 
   private static final int MIN_RESIZE_ANGLE = 8;
   private static final int MAX_RESIZE_ANGLE = 45;
@@ -44,7 +45,6 @@ public class SideArcsView extends View implements ComponentAnimation {
 
   private void init() {
     initPaint();
-    setInvisible();
     arcAngle = MAX_RESIZE_ANGLE;
   }
 
@@ -67,26 +67,21 @@ public class SideArcsView extends View implements ComponentAnimation {
     initOval();
   }
 
-  private void setInvisible() {
-    setAlpha(0);
-  }
-
   @Override
   protected void onDraw(Canvas canvas) {
     super.onDraw(canvas);
-    drawArc(canvas);
+    drawArcs(canvas);
   }
 
-  private void drawArc(Canvas canvas) {
+  private void drawArcs(Canvas canvas) {
     canvas.drawArc(oval, startLeftArcAngle, arcAngle, false, paint);
     canvas.drawArc(oval, startRightArcAngle, -arcAngle, false, paint);
   }
 
   @Override
   public void startAnimation(final Callback callback) {
-    setVisible();
     startRotateAnimation();
-    startResizeDownAnimation();
+    startResizeDownAnimation(callback);
   }
 
   private void startRotateAnimation() {
@@ -104,7 +99,7 @@ public class SideArcsView extends View implements ComponentAnimation {
     valueAnimator.start();
   }
 
-  private void startResizeDownAnimation() {
+  private void startResizeDownAnimation(final Callback callback) {
     ValueAnimator valueAnimator = ValueAnimator.ofInt(MAX_RESIZE_ANGLE, MIN_RESIZE_ANGLE);
     valueAnimator.setInterpolator(new DecelerateInterpolator());
     valueAnimator.setDuration(700);
@@ -115,10 +110,27 @@ public class SideArcsView extends View implements ComponentAnimation {
         invalidate();
       }
     });
-    valueAnimator.start();
-  }
+    valueAnimator.addListener(new Animator.AnimatorListener() {
+      @Override
+      public void onAnimationStart(Animator animation) {
+        // Empty
+      }
 
-  private void setVisible() {
-    setAlpha(100);
+      @Override
+      public void onAnimationEnd(Animator animation) {
+        callback.onAnimationFinished();
+      }
+
+      @Override
+      public void onAnimationCancel(Animator animation) {
+        // Empty
+      }
+
+      @Override
+      public void onAnimationRepeat(Animator animation) {
+        // Empty
+      }
+    });
+    valueAnimator.start();
   }
 }

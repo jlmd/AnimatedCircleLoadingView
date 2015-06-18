@@ -14,38 +14,40 @@ import com.jlmd.android.circularloadinganimation.R;
 /**
  * @author jlmd
  */
-public class MainCircleView extends ComponentViewAnimation {
+public class TopCircleView extends ComponentViewAnimation {
 
   private static final int MIN_ANGLE = 0;
+  private static final int MAX_ANGLE = 180;
   private static final int CIRCLE_RADIUS = 70;
   private Paint paint;
   private RectF oval;
-  private int arcFillAngle = 0;
+  private int arcAngle;
 
-  public MainCircleView(Context context) {
+  public TopCircleView(Context context) {
     super(context);
     init();
   }
 
-  public MainCircleView(Context context, AttributeSet attrs) {
+  public TopCircleView(Context context, AttributeSet attrs) {
     super(context, attrs);
     init();
   }
 
-  public MainCircleView(Context context, AttributeSet attrs, int defStyleAttr) {
+  public TopCircleView(Context context, AttributeSet attrs, int defStyleAttr) {
     super(context, attrs, defStyleAttr);
     init();
   }
 
   private void init() {
     initPaint();
+    arcAngle = MIN_ANGLE;
   }
 
   private void initPaint() {
     paint = new Paint();
     paint.setColor(getResources().getColor(R.color.main_circle));
     paint.setStrokeWidth(12);
-    paint.setStyle(Paint.Style.FILL);
+    paint.setStyle(Paint.Style.STROKE);
   }
 
   private void initOval() {
@@ -62,7 +64,8 @@ public class MainCircleView extends ComponentViewAnimation {
   }
 
   private void drawArcs(Canvas canvas) {
-    canvas.drawArc(oval, 90, arcFillAngle, false, paint);
+    canvas.drawArc(oval, 270, arcAngle, false, paint);
+    canvas.drawArc(oval, 270, -arcAngle, false, paint);
   }
 
   @Override
@@ -73,17 +76,17 @@ public class MainCircleView extends ComponentViewAnimation {
 
   @Override
   public void startAnimation(Callback callback) {
-    startFillCircleAnimation(callback);
+    startDrawCircleAnimation(callback);
   }
 
-  private void startFillCircleAnimation(final Callback callback) {
-    ValueAnimator valueAnimator = ValueAnimator.ofInt(0, 360);
+  private void startDrawCircleAnimation(final Callback callback) {
+    ValueAnimator valueAnimator = ValueAnimator.ofInt(MIN_ANGLE, MAX_ANGLE);
     valueAnimator.setInterpolator(new DecelerateInterpolator());
-    valueAnimator.setDuration(1500);
+    valueAnimator.setDuration(1000);
     valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
       @Override
       public void onAnimationUpdate(ValueAnimator animation) {
-        arcFillAngle = (int) animation.getAnimatedValue();
+        arcAngle = (int) animation.getAnimatedValue();
         invalidate();
       }
     });

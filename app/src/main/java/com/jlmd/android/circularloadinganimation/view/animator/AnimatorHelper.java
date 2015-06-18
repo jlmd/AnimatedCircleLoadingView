@@ -1,34 +1,62 @@
 package com.jlmd.android.circularloadinganimation.view.animator;
 
-import com.jlmd.android.circularloadinganimation.view.component.ComponentAnimation;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import com.jlmd.android.circularloadinganimation.view.component.ComponentViewAnimation;
+import com.jlmd.android.circularloadinganimation.view.component.InitialCenterCircleView;
+import com.jlmd.android.circularloadinganimation.view.component.MainCircleView;
+import com.jlmd.android.circularloadinganimation.view.component.RightCircleView;
+import com.jlmd.android.circularloadinganimation.view.component.SideArcsView;
+import com.jlmd.android.circularloadinganimation.view.component.TopCircleView;
 
 /**
  * @author jlmd
  */
 public class AnimatorHelper {
 
-  private List<ComponentAnimation> componentAnimations = Collections.emptyList();
+  private InitialCenterCircleView initialCenterCircleView;
+  private RightCircleView rightCircleView;
+  private SideArcsView sideArcsView;
+  private TopCircleView topCircleView;
+  private MainCircleView mainCircleView;
 
-  public void setComponentAnimations(ComponentAnimation... componentAnimations) {
-    this.componentAnimations = Arrays.asList(componentAnimations);
+  public void setComponentViewAnimations(InitialCenterCircleView initialCenterCircleView,
+      RightCircleView rightCircleView, SideArcsView sideArcsView, TopCircleView topCircleView,
+      MainCircleView mainCircleView) {
+    this.initialCenterCircleView = initialCenterCircleView;
+    this.rightCircleView = rightCircleView;
+    this.sideArcsView = sideArcsView;
+    this.topCircleView = topCircleView;
+    this.mainCircleView = mainCircleView;
   }
 
   public void startAnimator() {
-    componentAnimations.get(0).startAnimation(new ComponentAnimation.Callback() {
+    initialCenterCircleView.showView();
+    initialCenterCircleView.startAnimation(new ComponentViewAnimation.Callback() {
       @Override
       public void onAnimationFinished() {
-        componentAnimations.get(2).startAnimation(new ComponentAnimation.Callback() {
+        sideArcsView.showView();
+        sideArcsView.startAnimation(new ComponentViewAnimation.Callback() {
           @Override
           public void onAnimationFinished() {
-            // Empty
+            sideArcsView.hideView();
+            topCircleView.showView();
+            topCircleView.startAnimation(new ComponentViewAnimation.Callback() {
+              @Override
+              public void onAnimationFinished() {
+                mainCircleView.showView();
+                mainCircleView.startAnimation(new ComponentViewAnimation.Callback() {
+                  @Override
+                  public void onAnimationFinished() {
+
+                  }
+                });
+              }
+            });
           }
         });
       }
     });
-    componentAnimations.get(1).startAnimation(new ComponentAnimation.Callback() {
+    rightCircleView.showView();
+    rightCircleView.startAnimation(new ComponentViewAnimation.Callback() {
       @Override
       public void onAnimationFinished() {
         // Empty
