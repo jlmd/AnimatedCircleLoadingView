@@ -10,6 +10,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
 import com.jlmd.android.circularloadinganimation.R;
+import com.jlmd.android.circularloadinganimation.view.animator.AnimationState;
 
 /**
  * @author jlmd
@@ -41,8 +42,7 @@ public class RightCircleView extends ComponentViewAnimation {
     canvas.drawCircle(getWidth() - 150, (getHeight() / 2) - 50, 70, paint);
   }
 
-  @Override
-  public void startAnimation(final Callback callback) {
+  public void startSecondaryCircleAnimation() {
     TranslateAnimation translateAnimation =
         new TranslateAnimation(getX(), getX(), getY(), getY() + 260);
     translateAnimation.setStartOffset(200l);
@@ -64,7 +64,7 @@ public class RightCircleView extends ComponentViewAnimation {
 
       @Override
       public void onAnimationEnd(Animation animation) {
-        callback.onAnimationFinished();
+        setState(AnimationState.SECONDARY_CIRCLE_FINISHED);
       }
 
       @Override

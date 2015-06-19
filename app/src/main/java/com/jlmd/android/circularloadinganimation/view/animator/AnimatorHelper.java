@@ -1,5 +1,6 @@
 package com.jlmd.android.circularloadinganimation.view.animator;
 
+import android.util.Log;
 import com.jlmd.android.circularloadinganimation.view.component.ComponentViewAnimation;
 import com.jlmd.android.circularloadinganimation.view.component.InitialCenterCircleView;
 import com.jlmd.android.circularloadinganimation.view.component.MainCircleView;
@@ -10,7 +11,7 @@ import com.jlmd.android.circularloadinganimation.view.component.TopCircleView;
 /**
  * @author jlmd
  */
-public class AnimatorHelper {
+public class AnimatorHelper implements ComponentViewAnimation.StateListener {
 
   private InitialCenterCircleView initialCenterCircleView;
   private RightCircleView rightCircleView;
@@ -26,41 +27,71 @@ public class AnimatorHelper {
     this.sideArcsView = sideArcsView;
     this.topCircleView = topCircleView;
     this.mainCircleView = mainCircleView;
+    initListeners();
+  }
+
+  private void initListeners() {
+    initialCenterCircleView.setStateListener(this);
+    rightCircleView.setStateListener(this);
+    sideArcsView.setStateListener(this);
+    topCircleView.setStateListener(this);
+    mainCircleView.setStateListener(this);
   }
 
   public void startAnimator() {
     initialCenterCircleView.showView();
-    initialCenterCircleView.startAnimation(new ComponentViewAnimation.Callback() {
-      @Override
-      public void onAnimationFinished() {
-        sideArcsView.showView();
-        sideArcsView.startAnimation(new ComponentViewAnimation.Callback() {
-          @Override
-          public void onAnimationFinished() {
-            sideArcsView.hideView();
-            topCircleView.showView();
-            topCircleView.startAnimation(new ComponentViewAnimation.Callback() {
-              @Override
-              public void onAnimationFinished() {
-                mainCircleView.showView();
-                mainCircleView.startAnimation(new ComponentViewAnimation.Callback() {
-                  @Override
-                  public void onAnimationFinished() {
-
-                  }
-                });
-              }
-            });
-          }
-        });
-      }
-    });
+    initialCenterCircleView.startTranslateTopAnimation();
+    initialCenterCircleView.startScaleAnimation();
     rightCircleView.showView();
-    rightCircleView.startAnimation(new ComponentViewAnimation.Callback() {
-      @Override
-      public void onAnimationFinished() {
-        // Empty
-      }
-    });
+    rightCircleView.startSecondaryCircleAnimation();
+  }
+
+  @Override
+  public void onStateChanged(AnimationState state) {
+    switch (state) {
+      case MAIN_CIRCLE_TRANSLATED_TOP:
+        onMainCircleTranslatedTop();
+        break;
+      case MAIN_CIRCLE_SCALED_DISAPPEAR:
+        onMainCircleScaledDisappear();
+        break;
+      case MAIN_CIRCLE_FILLED_TOP:
+        onMainCircleFilledTop();
+        break;
+      case SIDE_ARCS_RESIZED_TOP:
+        onSideArcsResizedTop();
+        break;
+      case MAIN_CIRCLE_DRAWN_TOP:
+        onMainCircleDrawnTop();
+        break;
+      default:
+        break;
+    }
+  }
+
+  private void onMainCircleTranslatedTop() {
+    initialCenterCircleView.startTranslateBottomAnimation();
+    initialCenterCircleView.startScaleDisappear();
+  }
+
+  private void onMainCircleScaledDisappear() {
+    sideArcsView.showView();
+    sideArcsView.startRotateAnimation();
+    sideArcsView.startResizeDownAnimation();
+  }
+
+  private void onSideArcsResizedTop() {
+    sideArcsView.hideView();
+    topCircleView.showView();
+    topCircleView.startDrawCircleAnimation();
+  }
+
+  private void onMainCircleDrawnTop() {
+    mainCircleView.showView();
+    mainCircleView.startFillCircleAnimation();
+  }
+
+  private void onMainCircleFilledTop() {
+    topCircleView.hideView();
   }
 }

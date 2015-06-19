@@ -7,20 +7,20 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import com.jlmd.android.circularloadinganimation.R;
+import com.jlmd.android.circularloadinganimation.view.animator.AnimationState;
 
 /**
  * @author jlmd
  */
 public class MainCircleView extends ComponentViewAnimation {
 
-  private static final int MIN_ANGLE = 0;
   private static final int CIRCLE_RADIUS = 70;
   private Paint paint;
   private RectF oval;
   private int arcFillAngle = 0;
+  private int arcStartAngle = 0;
 
   public MainCircleView(Context context) {
     super(context);
@@ -62,7 +62,7 @@ public class MainCircleView extends ComponentViewAnimation {
   }
 
   private void drawArcs(Canvas canvas) {
-    canvas.drawArc(oval, 90, arcFillAngle, false, paint);
+    canvas.drawArc(oval, arcStartAngle, arcFillAngle, false, paint);
   }
 
   @Override
@@ -71,19 +71,14 @@ public class MainCircleView extends ComponentViewAnimation {
     initOval();
   }
 
-  @Override
-  public void startAnimation(Callback callback) {
-    startFillCircleAnimation(callback);
-  }
-
-  private void startFillCircleAnimation(final Callback callback) {
-    ValueAnimator valueAnimator = ValueAnimator.ofInt(0, 360);
-    valueAnimator.setInterpolator(new DecelerateInterpolator());
-    valueAnimator.setDuration(1500);
+  public void startFillCircleAnimation() {
+    ValueAnimator valueAnimator = ValueAnimator.ofInt(90, 360);
+    valueAnimator.setDuration(1700);
     valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
       @Override
       public void onAnimationUpdate(ValueAnimator animation) {
-        arcFillAngle = (int) animation.getAnimatedValue();
+        arcStartAngle = (int) animation.getAnimatedValue();
+        arcFillAngle = (90 - arcStartAngle) * 2;
         invalidate();
       }
     });
@@ -95,7 +90,7 @@ public class MainCircleView extends ComponentViewAnimation {
 
       @Override
       public void onAnimationEnd(Animator animation) {
-        callback.onAnimationFinished();
+        setState(AnimationState.MAIN_CIRCLE_FILLED_TOP);
       }
 
       @Override

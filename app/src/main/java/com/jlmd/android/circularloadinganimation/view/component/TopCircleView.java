@@ -7,9 +7,9 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import com.jlmd.android.circularloadinganimation.R;
+import com.jlmd.android.circularloadinganimation.view.animator.AnimationState;
 
 /**
  * @author jlmd
@@ -74,15 +74,10 @@ public class TopCircleView extends ComponentViewAnimation {
     initOval();
   }
 
-  @Override
-  public void startAnimation(Callback callback) {
-    startDrawCircleAnimation(callback);
-  }
-
-  private void startDrawCircleAnimation(final Callback callback) {
+  public void startDrawCircleAnimation() {
     ValueAnimator valueAnimator = ValueAnimator.ofInt(MIN_ANGLE, MAX_ANGLE);
     valueAnimator.setInterpolator(new DecelerateInterpolator());
-    valueAnimator.setDuration(1000);
+    valueAnimator.setDuration(800);
     valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
       @Override
       public void onAnimationUpdate(ValueAnimator animation) {
@@ -98,7 +93,7 @@ public class TopCircleView extends ComponentViewAnimation {
 
       @Override
       public void onAnimationEnd(Animator animation) {
-        callback.onAnimationFinished();
+        setState(AnimationState.MAIN_CIRCLE_DRAWN_TOP);
       }
 
       @Override
