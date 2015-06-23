@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 import com.jlmd.android.circularloadinganimation.view.animator.AnimatorHelper;
+import com.jlmd.android.circularloadinganimation.view.component.FinishedOkView;
 import com.jlmd.android.circularloadinganimation.view.component.InitialCenterCircleView;
 import com.jlmd.android.circularloadinganimation.view.component.MainCircleView;
 import com.jlmd.android.circularloadinganimation.view.component.TopCircleView;
@@ -16,13 +17,12 @@ import com.jlmd.android.circularloadinganimation.view.component.SideArcsView;
 public class CircleLoadingView extends FrameLayout {
 
   private final Context context;
-
   private InitialCenterCircleView initialCenterCircleView;
   private RightCircleView rightCircleView;
   private SideArcsView sideArcsView;
   private MainCircleView mainCircleView;
   private TopCircleView topCircleView;
-
+  private FinishedOkView finishedOkCircleView;
   private AnimatorHelper animatorHelper;
 
   public CircleLoadingView(Context context) {
@@ -56,6 +56,7 @@ public class CircleLoadingView extends FrameLayout {
     sideArcsView = new SideArcsView(context);
     topCircleView = new TopCircleView(context);
     mainCircleView = new MainCircleView(context);
+    finishedOkCircleView = new FinishedOkView(context);
   }
 
   private void addComponentsViews() {
@@ -64,12 +65,13 @@ public class CircleLoadingView extends FrameLayout {
     addView(sideArcsView);
     addView(topCircleView);
     addView(mainCircleView);
+    addView(finishedOkCircleView);
   }
 
   private void initAnimatorHelper() {
     animatorHelper = new AnimatorHelper();
     animatorHelper.setComponentViewAnimations(initialCenterCircleView, rightCircleView,
-        sideArcsView, topCircleView, mainCircleView);
+        sideArcsView, topCircleView, mainCircleView, finishedOkCircleView);
   }
 
   private void startAnimation() {

@@ -47,7 +47,7 @@ public class InitialCenterCircleView extends ComponentViewAnimation {
 
   public void drawCircle(Canvas canvas) {
     Paint paint = new Paint();
-    paint.setStyle(Paint.Style.FILL);
+    paint.setStyle(Paint.Style.FILL_AND_STROKE);
     paint.setColor(getResources().getColor(R.color.main_circle));
     canvas.drawCircle(getWidth() / 2, getHeight() / 2, circleRadius, paint);
   }
@@ -132,5 +132,32 @@ public class InitialCenterCircleView extends ComponentViewAnimation {
       }
     });
     valueAnimator.start();
+  }
+
+  public void startTranslateCenterAnimation() {
+    ObjectAnimator translationY = ObjectAnimator.ofFloat(this, "translationY", -255, 200);
+    translationY.addListener(new Animator.AnimatorListener() {
+      @Override
+      public void onAnimationStart(Animator animation) {
+        // Empty
+      }
+
+      @Override
+      public void onAnimationEnd(Animator animation) {
+        setState(AnimationState.MAIN_CIRCLE_TRANSLATED_CENTER);
+      }
+
+      @Override
+      public void onAnimationCancel(Animator animation) {
+        // Empty
+      }
+
+      @Override
+      public void onAnimationRepeat(Animator animation) {
+        // Empty
+      }
+    });
+    translationY.setDuration(700);
+    translationY.start();
   }
 }

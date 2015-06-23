@@ -77,7 +77,7 @@ public class TopCircleView extends ComponentViewAnimation {
   public void startDrawCircleAnimation() {
     ValueAnimator valueAnimator = ValueAnimator.ofInt(MIN_ANGLE, MAX_ANGLE);
     valueAnimator.setInterpolator(new DecelerateInterpolator());
-    valueAnimator.setDuration(800);
+    valueAnimator.setDuration(500);
     valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
       @Override
       public void onAnimationUpdate(ValueAnimator animation) {

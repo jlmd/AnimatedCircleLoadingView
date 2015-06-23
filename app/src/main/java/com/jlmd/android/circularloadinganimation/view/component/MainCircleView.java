@@ -45,7 +45,7 @@ public class MainCircleView extends ComponentViewAnimation {
     paint = new Paint();
     paint.setColor(getResources().getColor(R.color.main_circle));
     paint.setStrokeWidth(12);
-    paint.setStyle(Paint.Style.FILL);
+    paint.setStyle(Paint.Style.FILL_AND_STROKE);
   }
 
   private void initOval() {
@@ -73,7 +73,7 @@ public class MainCircleView extends ComponentViewAnimation {
 
   public void startFillCircleAnimation() {
     ValueAnimator valueAnimator = ValueAnimator.ofInt(90, 360);
-    valueAnimator.setDuration(1700);
+    valueAnimator.setDuration(1000);
     valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
       @Override
       public void onAnimationUpdate(ValueAnimator animation) {
