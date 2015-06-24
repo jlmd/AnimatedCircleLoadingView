@@ -17,8 +17,7 @@ public class InitialCenterCircleView extends ComponentViewAnimation {
 
   private static final float MIN_RADIUS = 15;
   private static final float MAX_RADIUS = 70;
-
-  private float circleRadius = MIN_RADIUS;
+  private float circleRadius;
 
   public InitialCenterCircleView(Context context) {
     super(context);
@@ -36,7 +35,7 @@ public class InitialCenterCircleView extends ComponentViewAnimation {
   }
 
   private void init() {
-
+    circleRadius = MIN_RADIUS;
   }
 
   @Override
@@ -93,7 +92,7 @@ public class InitialCenterCircleView extends ComponentViewAnimation {
   }
 
   public void startTranslateBottomAnimation() {
-    ObjectAnimator translationY = ObjectAnimator.ofFloat(this, "translationY", -255, 600);
+    ObjectAnimator translationY = ObjectAnimator.ofFloat(this, "translationY", -260, 600);
     translationY.setDuration(700);
     translationY.start();
   }
@@ -135,7 +134,7 @@ public class InitialCenterCircleView extends ComponentViewAnimation {
   }
 
   public void startTranslateCenterAnimation() {
-    ObjectAnimator translationY = ObjectAnimator.ofFloat(this, "translationY", -255, 200);
+    ObjectAnimator translationY = ObjectAnimator.ofFloat(this, "translationY", -260, 0);
     translationY.addListener(new Animator.AnimatorListener() {
       @Override
       public void onAnimationStart(Animator animation) {
