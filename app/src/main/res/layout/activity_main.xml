@@ -4,6 +4,7 @@
     android:background="@color/background">
 
   <com.jlmd.android.circularloadinganimation.view.CircleLoadingView
+      android:id="@+id/circle_loading_view"
       android:background="@color/background"
       android:layout_width="700px"
       android:layout_height="700px"

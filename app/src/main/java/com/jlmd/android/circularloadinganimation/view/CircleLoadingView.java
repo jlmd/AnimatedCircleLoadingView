@@ -2,15 +2,16 @@ package com.jlmd.android.circularloadinganimation.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.FrameLayout;
 import com.jlmd.android.circularloadinganimation.view.animator.AnimatorHelper;
 import com.jlmd.android.circularloadinganimation.view.component.FinishedFailureView;
 import com.jlmd.android.circularloadinganimation.view.component.FinishedOkView;
 import com.jlmd.android.circularloadinganimation.view.component.InitialCenterCircleView;
 import com.jlmd.android.circularloadinganimation.view.component.MainCircleView;
-import com.jlmd.android.circularloadinganimation.view.component.TopCircleView;
 import com.jlmd.android.circularloadinganimation.view.component.RightCircleView;
 import com.jlmd.android.circularloadinganimation.view.component.SideArcsView;
+import com.jlmd.android.circularloadinganimation.view.component.TopCircleView;
 
 /**
  * @author jlmd
@@ -26,40 +27,48 @@ public class CircleLoadingView extends FrameLayout {
   private FinishedOkView finishedOkView;
   private FinishedFailureView finishedFailureView;
   private AnimatorHelper animatorHelper;
+  private boolean startAnimationIndeterminate;
 
   public CircleLoadingView(Context context) {
     super(context);
     this.context = context;
-    init();
   }
 
   public CircleLoadingView(Context context, AttributeSet attrs) {
     super(context, attrs);
     this.context = context;
-    init();
   }
 
   public CircleLoadingView(Context context, AttributeSet attrs, int defStyleAttr) {
     super(context, attrs, defStyleAttr);
     this.context = context;
+  }
+
+  @Override
+  protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+    super.onSizeChanged(w, h, oldw, oldh);
     init();
+    if (startAnimationIndeterminate) {
+      animatorHelper.startAnimator();
+      startAnimationIndeterminate = false;
+    }
   }
 
   private void init() {
     initComponents();
     addComponentsViews();
     initAnimatorHelper();
-    startAnimation();
   }
 
   private void initComponents() {
-    initialCenterCircleView = new InitialCenterCircleView(context);
-    rightCircleView = new RightCircleView(context);
-    sideArcsView = new SideArcsView(context);
-    topCircleView = new TopCircleView(context);
-    mainCircleView = new MainCircleView(context);
-    finishedOkView = new FinishedOkView(context);
-    finishedFailureView = new FinishedFailureView(context);
+    int width = getWidth();
+    initialCenterCircleView = new InitialCenterCircleView(context, width);
+    rightCircleView = new RightCircleView(context, width);
+    sideArcsView = new SideArcsView(context, width);
+    topCircleView = new TopCircleView(context, width);
+    mainCircleView = new MainCircleView(context, width);
+    finishedOkView = new FinishedOkView(context, width);
+    finishedFailureView = new FinishedFailureView(context, width);
   }
 
   private void addComponentsViews() {
@@ -69,6 +78,7 @@ public class CircleLoadingView extends FrameLayout {
     addView(topCircleView);
     addView(mainCircleView);
     addView(finishedOkView);
+    addView(finishedFailureView);
   }
 
   private void initAnimatorHelper() {
@@ -77,7 +87,15 @@ public class CircleLoadingView extends FrameLayout {
         sideArcsView, topCircleView, mainCircleView, finishedOkView, finishedFailureView);
   }
 
-  private void startAnimation() {
-    animatorHelper.startAnimator();
+  public void startIndeterminate() {
+    startAnimationIndeterminate = true;
+  }
+
+  public void stopOk() {
+    animatorHelper.finishOk();
+  }
+
+  public void stopFailure() {
+    animatorHelper.finishFailure();
   }
 }

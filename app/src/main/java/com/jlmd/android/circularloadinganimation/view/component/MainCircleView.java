@@ -16,14 +16,13 @@ import com.jlmd.android.circularloadinganimation.view.animator.AnimationState;
  */
 public class MainCircleView extends ComponentViewAnimation {
 
-  private static final int CIRCLE_RADIUS = 70;
   private Paint paint;
   private RectF oval;
   private int arcFillAngle = 0;
   private int arcStartAngle = 0;
 
-  public MainCircleView(Context context) {
-    super(context);
+  public MainCircleView(Context context, int parentWidth) {
+    super(context, parentWidth);
     init();
   }
 
@@ -39,6 +38,7 @@ public class MainCircleView extends ComponentViewAnimation {
 
   private void init() {
     initPaint();
+    initOval();
   }
 
   private void initPaint() {
@@ -51,8 +51,8 @@ public class MainCircleView extends ComponentViewAnimation {
   private void initOval() {
     float padding = paint.getStrokeWidth() / 2;
     oval = new RectF();
-    oval.set((getWidth() / 2) - CIRCLE_RADIUS, padding, (getWidth() / 2) + CIRCLE_RADIUS,
-        CIRCLE_RADIUS * 2);
+    oval.set(parentCenter - circleRadius, padding, parentCenter + circleRadius,
+        circleRadius * 2);
   }
 
   @Override
@@ -63,12 +63,6 @@ public class MainCircleView extends ComponentViewAnimation {
 
   private void drawArcs(Canvas canvas) {
     canvas.drawArc(oval, arcStartAngle, arcFillAngle, false, paint);
-  }
-
-  @Override
-  protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-    super.onSizeChanged(w, h, oldw, oldh);
-    initOval();
   }
 
   public void startFillCircleAnimation() {

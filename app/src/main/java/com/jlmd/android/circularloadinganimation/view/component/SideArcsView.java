@@ -7,7 +7,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import com.jlmd.android.circularloadinganimation.R;
 import com.jlmd.android.circularloadinganimation.view.animator.AnimationState;
@@ -29,8 +28,8 @@ public class SideArcsView extends ComponentViewAnimation {
   private RectF oval;
   private int arcAngle;
 
-  public SideArcsView(Context context) {
-    super(context);
+  public SideArcsView(Context context, int parentWidth) {
+    super(context, parentWidth);
     init();
   }
 
@@ -47,6 +46,7 @@ public class SideArcsView extends ComponentViewAnimation {
   private void init() {
     initPaint();
     arcAngle = MAX_RESIZE_ANGLE;
+    initOval();
   }
 
   private void initPaint() {
@@ -59,13 +59,7 @@ public class SideArcsView extends ComponentViewAnimation {
   private void initOval() {
     float padding = paint.getStrokeWidth() / 2;
     oval = new RectF();
-    oval.set(padding, padding, getWidth() - padding, getHeight() - padding);
-  }
-
-  @Override
-  protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-    super.onSizeChanged(w, h, oldw, oldh);
-    initOval();
+    oval.set(padding, padding, parentWidth - padding, parentWidth - padding);
   }
 
   @Override

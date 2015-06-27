@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
@@ -17,10 +16,8 @@ import com.jlmd.android.circularloadinganimation.view.animator.AnimationState;
  */
 public class RightCircleView extends ComponentViewAnimation {
 
-  private static final int CIRCLE_RADIUS = 70;
-
-  public RightCircleView(Context context) {
-    super(context);
+  public RightCircleView(Context context, int parentWidth) {
+    super(context, parentWidth);
   }
 
   public RightCircleView(Context context, AttributeSet attrs) {
@@ -40,8 +37,8 @@ public class RightCircleView extends ComponentViewAnimation {
   public void drawCircle(Canvas canvas) {
     Paint paint = new Paint();
     paint.setStyle(Paint.Style.FILL);
-    paint.setColor(getResources().getColor(R.color.right_circle));
-    canvas.drawCircle(getWidth() - 150, (getHeight() / 2) - 50, CIRCLE_RADIUS, paint);
+    paint.setColor(getResources().getColor(R.color.secondary_circle));
+    canvas.drawCircle(getWidth() - 150, parentCenter - 50, circleRadius, paint);
   }
 
   public void startSecondaryCircleAnimation() {

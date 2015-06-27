@@ -16,11 +16,10 @@ import com.jlmd.android.circularloadinganimation.view.animator.AnimationState;
 public class InitialCenterCircleView extends ComponentViewAnimation {
 
   private static final float MIN_RADIUS = 15;
-  private static final float MAX_RADIUS = 70;
-  private float circleRadius;
+  private float currentCircleRadius;
 
-  public InitialCenterCircleView(Context context) {
-    super(context);
+  public InitialCenterCircleView(Context context, int parentWidth) {
+    super(context, parentWidth);
     init();
   }
 
@@ -35,7 +34,7 @@ public class InitialCenterCircleView extends ComponentViewAnimation {
   }
 
   private void init() {
-    circleRadius = MIN_RADIUS;
+    currentCircleRadius = MIN_RADIUS;
   }
 
   @Override
@@ -48,7 +47,7 @@ public class InitialCenterCircleView extends ComponentViewAnimation {
     Paint paint = new Paint();
     paint.setStyle(Paint.Style.FILL_AND_STROKE);
     paint.setColor(getResources().getColor(R.color.main_circle));
-    canvas.drawCircle(getWidth() / 2, getHeight() / 2, circleRadius, paint);
+    canvas.drawCircle(parentCenter, parentCenter, currentCircleRadius, paint);
   }
 
   public void startTranslateTopAnimation() {
@@ -79,12 +78,12 @@ public class InitialCenterCircleView extends ComponentViewAnimation {
   }
 
   public void startScaleAnimation() {
-    ValueAnimator valueAnimator = ValueAnimator.ofFloat(MIN_RADIUS, MAX_RADIUS);
+    ValueAnimator valueAnimator = ValueAnimator.ofFloat(MIN_RADIUS, circleRadius);
     valueAnimator.setDuration(1400);
     valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
       @Override
       public void onAnimationUpdate(ValueAnimator animation) {
-        circleRadius = (float) animation.getAnimatedValue();
+        currentCircleRadius = (float) animation.getAnimatedValue();
         invalidate();
       }
     });
@@ -98,13 +97,13 @@ public class InitialCenterCircleView extends ComponentViewAnimation {
   }
 
   public void startScaleDisappear() {
-    ValueAnimator valueAnimator = ValueAnimator.ofFloat(MAX_RADIUS, 200);
+    ValueAnimator valueAnimator = ValueAnimator.ofFloat(circleRadius, 200);
     valueAnimator.setDuration(75);
     valueAnimator.setStartDelay(460);
     valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
       @Override
       public void onAnimationUpdate(ValueAnimator animation) {
-        circleRadius = (float) animation.getAnimatedValue();
+        currentCircleRadius = (float) animation.getAnimatedValue();
         invalidate();
       }
     });
@@ -116,7 +115,7 @@ public class InitialCenterCircleView extends ComponentViewAnimation {
 
       @Override
       public void onAnimationEnd(Animator animation) {
-        circleRadius = MAX_RADIUS;
+        currentCircleRadius = circleRadius;
         setState(AnimationState.MAIN_CIRCLE_SCALED_DISAPPEAR);
       }
 

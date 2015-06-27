@@ -14,10 +14,6 @@ import com.jlmd.android.circularloadinganimation.view.component.TopCircleView;
  */
 public class AnimatorHelper implements ComponentViewAnimation.StateListener {
 
-  // For TESTING
-  private static final int MAX_ITERATIONS = 3;
-  private int iteration = 0;
-
   private InitialCenterCircleView initialCenterCircleView;
   private RightCircleView rightCircleView;
   private SideArcsView sideArcsView;
@@ -52,11 +48,20 @@ public class AnimatorHelper implements ComponentViewAnimation.StateListener {
   }
 
   public void startAnimator() {
+    finishedState = null;
     initialCenterCircleView.showView();
     initialCenterCircleView.startTranslateTopAnimation();
     initialCenterCircleView.startScaleAnimation();
     rightCircleView.showView();
     rightCircleView.startSecondaryCircleAnimation();
+  }
+
+  public void finishOk() {
+    finishedState = AnimationState.FINISHED_OK;
+  }
+
+  public void finishFailure() {
+    finishedState = AnimationState.FINISHED_FAILURE;
   }
 
   @Override
@@ -69,12 +74,7 @@ public class AnimatorHelper implements ComponentViewAnimation.StateListener {
         onMainCircleScaledDisappear();
         break;
       case MAIN_CIRCLE_FILLED_TOP:
-        iteration++;
-        if (iteration == MAX_ITERATIONS) {
-          onStateChanged(AnimationState.FINISHED_OK);
-        } else {
-          onMainCircleFilledTop();
-        }
+        onMainCircleFilledTop();
         break;
       case SIDE_ARCS_RESIZED_TOP:
         onSideArcsResizedTop();
@@ -85,7 +85,7 @@ public class AnimatorHelper implements ComponentViewAnimation.StateListener {
       case FINISHED_OK:
         onFinished(state);
         break;
-      case FINISHED_ERROR:
+      case FINISHED_FAILURE:
         onFinished(state);
         break;
       case MAIN_CIRCLE_TRANSLATED_CENTER:
@@ -119,10 +119,18 @@ public class AnimatorHelper implements ComponentViewAnimation.StateListener {
   }
 
   private void onMainCircleFilledTop() {
-    topCircleView.hideView();
-    mainCircleView.hideView();
-    initialCenterCircleView.startTranslateBottomAnimation();
-    initialCenterCircleView.startScaleDisappear();
+    if (isAnimationFinished()) {
+      onStateChanged(finishedState);
+    } else {
+      topCircleView.hideView();
+      mainCircleView.hideView();
+      initialCenterCircleView.startTranslateBottomAnimation();
+      initialCenterCircleView.startScaleDisappear();
+    }
+  }
+
+  private boolean isAnimationFinished() {
+    return finishedState != null;
   }
 
   private void onFinished(AnimationState state) {

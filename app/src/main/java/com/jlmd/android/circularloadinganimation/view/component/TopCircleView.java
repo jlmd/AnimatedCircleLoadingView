@@ -18,13 +18,12 @@ public class TopCircleView extends ComponentViewAnimation {
 
   private static final int MIN_ANGLE = 0;
   private static final int MAX_ANGLE = 180;
-  private static final int CIRCLE_RADIUS = 70;
   private Paint paint;
   private RectF oval;
   private int arcAngle;
 
-  public TopCircleView(Context context) {
-    super(context);
+  public TopCircleView(Context context, int parentWidth) {
+    super(context, parentWidth);
     init();
   }
 
@@ -53,8 +52,8 @@ public class TopCircleView extends ComponentViewAnimation {
   private void initOval() {
     float padding = paint.getStrokeWidth() / 2;
     oval = new RectF();
-    oval.set((getWidth() / 2) - CIRCLE_RADIUS, padding, (getWidth() / 2) + CIRCLE_RADIUS,
-        CIRCLE_RADIUS * 2);
+    oval.set(parentCenter - circleRadius, padding, (getWidth() / 2) + circleRadius,
+        circleRadius * 2);
   }
 
   @Override

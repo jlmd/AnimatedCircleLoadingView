@@ -11,10 +11,14 @@ import com.jlmd.android.circularloadinganimation.view.exception.NullStateListene
  */
 public abstract class ComponentViewAnimation extends View {
 
+  protected int parentWidth;
+  protected float parentCenter;
+  protected float circleRadius;
   private StateListener stateListener;
 
-  public ComponentViewAnimation(Context context) {
+  public ComponentViewAnimation(Context context, int parentWidth) {
     super(context);
+    this.parentWidth = parentWidth;
     init();
   }
 
@@ -30,6 +34,8 @@ public abstract class ComponentViewAnimation extends View {
 
   private void init() {
     hideView();
+    circleRadius = parentWidth / 10;
+    parentCenter = parentWidth / 2;
   }
 
   public void hideView() {

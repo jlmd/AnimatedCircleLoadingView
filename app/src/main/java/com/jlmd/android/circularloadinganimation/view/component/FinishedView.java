@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import com.jlmd.android.circularloadinganimation.R;
 
 /**
  * @author jlmd
@@ -15,15 +14,14 @@ import com.jlmd.android.circularloadinganimation.R;
 public abstract class FinishedView extends ComponentViewAnimation {
 
   private static final int CIRCLE_MAX_RADIUS = 140;
-  private static final int CIRCLE_MIN_RADIUS = 70;
   private static final int MAX_IMAGE_SIZE = 140;
   private static final int MIN_IMAGE_SIZE = 1;
   private Bitmap originalFinishedBitmap;
-  private int circleRadius;
+  private float currentCircleRadius;
   private int imageSize;
 
-  public FinishedView(Context context) {
-    super(context);
+  public FinishedView(Context context, int parentWidth) {
+    super(context, parentWidth);
     init();
   }
 
@@ -38,7 +36,7 @@ public abstract class FinishedView extends ComponentViewAnimation {
   }
 
   private void init() {
-    circleRadius = CIRCLE_MIN_RADIUS;
+    currentCircleRadius = circleRadius;
     imageSize = MIN_IMAGE_SIZE;
     originalFinishedBitmap = BitmapFactory.decodeResource(getResources(), getDrawable());
   }
@@ -52,17 +50,15 @@ public abstract class FinishedView extends ComponentViewAnimation {
 
   private void drawCheckedMark(Canvas canvas) {
     Bitmap bitmap = Bitmap.createScaledBitmap(originalFinishedBitmap, imageSize, imageSize, true);
-    float centerY = getHeight() / 2;
-    float centerX = getWidth() / 2;
-    canvas.drawBitmap(bitmap, centerX - bitmap.getWidth() / 2, centerY - bitmap.getHeight() / 2,
-        new Paint());
+    canvas.drawBitmap(bitmap, parentCenter - bitmap.getWidth() / 2,
+        parentCenter - bitmap.getHeight() / 2, new Paint());
   }
 
   public void drawCircle(Canvas canvas) {
     Paint paint = new Paint();
     paint.setStyle(Paint.Style.FILL_AND_STROKE);
-    paint.setColor(getResources().getColor(R.color.main_circle));
-    canvas.drawCircle(getWidth() / 2, getHeight() / 2, circleRadius, paint);
+    paint.setColor(getResources().getColor(getCircleColor()));
+    canvas.drawCircle(getWidth() / 2, getHeight() / 2, currentCircleRadius, paint);
   }
 
   public void startScaleAnimation() {
@@ -71,12 +67,12 @@ public abstract class FinishedView extends ComponentViewAnimation {
   }
 
   private void startScaleCircleAnimation() {
-    ValueAnimator valueCircleAnimator = ValueAnimator.ofInt(CIRCLE_MIN_RADIUS, CIRCLE_MAX_RADIUS);
+    ValueAnimator valueCircleAnimator = ValueAnimator.ofFloat(circleRadius, CIRCLE_MAX_RADIUS);
     valueCircleAnimator.setDuration(1000);
     valueCircleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
       @Override
       public void onAnimationUpdate(ValueAnimator animation) {
-        circleRadius = (int) animation.getAnimatedValue();
+        currentCircleRadius = (float) animation.getAnimatedValue();
         invalidate();
       }
     });
@@ -97,4 +93,6 @@ public abstract class FinishedView extends ComponentViewAnimation {
   }
 
   protected abstract int getDrawable();
+
+  protected abstract int getCircleColor();
 }
