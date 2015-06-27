@@ -2,11 +2,10 @@ package com.jlmd.android.circularloadinganimation.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.FrameLayout;
 import com.jlmd.android.circularloadinganimation.view.animator.AnimatorHelper;
-import com.jlmd.android.circularloadinganimation.view.component.FinishedFailureView;
-import com.jlmd.android.circularloadinganimation.view.component.FinishedOkView;
+import com.jlmd.android.circularloadinganimation.view.component.finish.FinishedFailureView;
+import com.jlmd.android.circularloadinganimation.view.component.finish.FinishedOkView;
 import com.jlmd.android.circularloadinganimation.view.component.InitialCenterCircleView;
 import com.jlmd.android.circularloadinganimation.view.component.MainCircleView;
 import com.jlmd.android.circularloadinganimation.view.component.RightCircleView;

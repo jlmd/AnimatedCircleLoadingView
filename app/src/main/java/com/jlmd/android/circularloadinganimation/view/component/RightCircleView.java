@@ -16,16 +16,25 @@ import com.jlmd.android.circularloadinganimation.view.animator.AnimationState;
  */
 public class RightCircleView extends ComponentViewAnimation {
 
+  private int rightMargin;
+  private int bottomMargin;
+  private Paint paint;
+
   public RightCircleView(Context context, int parentWidth) {
     super(context, parentWidth);
+    init();
   }
 
-  public RightCircleView(Context context, AttributeSet attrs) {
-    super(context, attrs);
+  private void init() {
+    rightMargin = (150 * parentWidth / 700);
+    bottomMargin = (50 * parentWidth / 700);
+    initPaint();
   }
 
-  public RightCircleView(Context context, AttributeSet attrs, int defStyleAttr) {
-    super(context, attrs, defStyleAttr);
+  private void initPaint() {
+    paint = new Paint();
+    paint.setStyle(Paint.Style.FILL);
+    paint.setColor(secondaryColor);
   }
 
   @Override
@@ -35,15 +44,13 @@ public class RightCircleView extends ComponentViewAnimation {
   }
 
   public void drawCircle(Canvas canvas) {
-    Paint paint = new Paint();
-    paint.setStyle(Paint.Style.FILL);
-    paint.setColor(getResources().getColor(R.color.secondary_circle));
-    canvas.drawCircle(getWidth() - 150, parentCenter - 50, circleRadius, paint);
+    canvas.drawCircle(getWidth() - rightMargin, parentCenter - bottomMargin, circleRadius, paint);
   }
 
   public void startSecondaryCircleAnimation() {
+    int bottomMovementAddition = (260 * parentWidth) / 700;
     TranslateAnimation translateAnimation =
-        new TranslateAnimation(getX(), getX(), getY(), getY() + 260);
+        new TranslateAnimation(getX(), getX(), getY(), getY() + bottomMovementAddition);
     translateAnimation.setStartOffset(200l);
     translateAnimation.setDuration(1000l);
 

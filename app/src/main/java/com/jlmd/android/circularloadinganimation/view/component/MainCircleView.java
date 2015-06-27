@@ -26,16 +26,6 @@ public class MainCircleView extends ComponentViewAnimation {
     init();
   }
 
-  public MainCircleView(Context context, AttributeSet attrs) {
-    super(context, attrs);
-    init();
-  }
-
-  public MainCircleView(Context context, AttributeSet attrs, int defStyleAttr) {
-    super(context, attrs, defStyleAttr);
-    init();
-  }
-
   private void init() {
     initPaint();
     initOval();
@@ -43,8 +33,8 @@ public class MainCircleView extends ComponentViewAnimation {
 
   private void initPaint() {
     paint = new Paint();
-    paint.setColor(getResources().getColor(R.color.main_circle));
-    paint.setStrokeWidth(12);
+    paint.setColor(mainColor);
+    paint.setStrokeWidth(strokeWidth);
     paint.setStyle(Paint.Style.FILL_AND_STROKE);
   }
 

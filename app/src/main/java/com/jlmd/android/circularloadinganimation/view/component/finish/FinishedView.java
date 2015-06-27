@@ -1,4 +1,4 @@
-package com.jlmd.android.circularloadinganimation.view.component;
+package com.jlmd.android.circularloadinganimation.view.component.finish;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -6,16 +6,16 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.util.AttributeSet;
+import com.jlmd.android.circularloadinganimation.view.component.ComponentViewAnimation;
 
 /**
  * @author jlmd
  */
 public abstract class FinishedView extends ComponentViewAnimation {
 
-  private static final int CIRCLE_MAX_RADIUS = 140;
-  private static final int MAX_IMAGE_SIZE = 140;
   private static final int MIN_IMAGE_SIZE = 1;
+  private int maxImageSize;
+  private int circleMaxRadius;
   private Bitmap originalFinishedBitmap;
   private float currentCircleRadius;
   private int imageSize;
@@ -25,17 +25,9 @@ public abstract class FinishedView extends ComponentViewAnimation {
     init();
   }
 
-  public FinishedView(Context context, AttributeSet attrs) {
-    super(context, attrs);
-    init();
-  }
-
-  public FinishedView(Context context, AttributeSet attrs, int defStyleAttr) {
-    super(context, attrs, defStyleAttr);
-    init();
-  }
-
   private void init() {
+    maxImageSize = (140 * parentWidth) / 700;
+    circleMaxRadius = (140 * parentWidth) / 700;
     currentCircleRadius = circleRadius;
     imageSize = MIN_IMAGE_SIZE;
     originalFinishedBitmap = BitmapFactory.decodeResource(getResources(), getDrawable());
@@ -57,8 +49,8 @@ public abstract class FinishedView extends ComponentViewAnimation {
   public void drawCircle(Canvas canvas) {
     Paint paint = new Paint();
     paint.setStyle(Paint.Style.FILL_AND_STROKE);
-    paint.setColor(getResources().getColor(getCircleColor()));
-    canvas.drawCircle(getWidth() / 2, getHeight() / 2, currentCircleRadius, paint);
+    paint.setColor(getCircleColor());
+    canvas.drawCircle(parentCenter, parentCenter, currentCircleRadius, paint);
   }
 
   public void startScaleAnimation() {
@@ -67,7 +59,7 @@ public abstract class FinishedView extends ComponentViewAnimation {
   }
 
   private void startScaleCircleAnimation() {
-    ValueAnimator valueCircleAnimator = ValueAnimator.ofFloat(circleRadius, CIRCLE_MAX_RADIUS);
+    ValueAnimator valueCircleAnimator = ValueAnimator.ofFloat(circleRadius, circleMaxRadius);
     valueCircleAnimator.setDuration(1000);
     valueCircleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
       @Override
@@ -80,7 +72,7 @@ public abstract class FinishedView extends ComponentViewAnimation {
   }
 
   private void startScaleImageAnimation() {
-    ValueAnimator valueImageAnimator = ValueAnimator.ofInt(MIN_IMAGE_SIZE, MAX_IMAGE_SIZE);
+    ValueAnimator valueImageAnimator = ValueAnimator.ofInt(MIN_IMAGE_SIZE, maxImageSize);
     valueImageAnimator.setDuration(1000);
     valueImageAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
       @Override

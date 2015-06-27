@@ -1,7 +1,6 @@
-package com.jlmd.android.circularloadinganimation.view.component;
+package com.jlmd.android.circularloadinganimation.view.component.finish;
 
 import android.content.Context;
-import android.util.AttributeSet;
 import com.jlmd.android.circularloadinganimation.R;
 
 /**
@@ -13,14 +12,6 @@ public class FinishedOkView extends FinishedView {
     super(context, parentWidth);
   }
 
-  public FinishedOkView(Context context, AttributeSet attrs) {
-    super(context, attrs);
-  }
-
-  public FinishedOkView(Context context, AttributeSet attrs, int defStyleAttr) {
-    super(context, attrs, defStyleAttr);
-  }
-
   @Override
   protected int getDrawable() {
     return R.drawable.ic_checked_mark;
@@ -28,6 +19,6 @@ public class FinishedOkView extends FinishedView {
 
   @Override
   protected int getCircleColor() {
-    return R.color.main_circle;
+    return mainColor;
   }
 }

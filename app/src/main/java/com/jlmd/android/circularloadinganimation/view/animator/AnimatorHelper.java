@@ -1,8 +1,8 @@
 package com.jlmd.android.circularloadinganimation.view.animator;
 
 import com.jlmd.android.circularloadinganimation.view.component.ComponentViewAnimation;
-import com.jlmd.android.circularloadinganimation.view.component.FinishedFailureView;
-import com.jlmd.android.circularloadinganimation.view.component.FinishedOkView;
+import com.jlmd.android.circularloadinganimation.view.component.finish.FinishedFailureView;
+import com.jlmd.android.circularloadinganimation.view.component.finish.FinishedOkView;
 import com.jlmd.android.circularloadinganimation.view.component.InitialCenterCircleView;
 import com.jlmd.android.circularloadinganimation.view.component.MainCircleView;
 import com.jlmd.android.circularloadinganimation.view.component.RightCircleView;

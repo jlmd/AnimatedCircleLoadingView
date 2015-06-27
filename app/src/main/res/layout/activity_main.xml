@@ -6,8 +6,8 @@
   <com.jlmd.android.circularloadinganimation.view.CircleLoadingView
       android:id="@+id/circle_loading_view"
       android:background="@color/background"
-      android:layout_width="700px"
-      android:layout_height="700px"
+      android:layout_width="400px"
+      android:layout_height="400px"
       android:layout_centerInParent="true"/>
 
 </RelativeLayout>

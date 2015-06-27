@@ -33,16 +33,6 @@ public class SideArcsView extends ComponentViewAnimation {
     init();
   }
 
-  public SideArcsView(Context context, AttributeSet attrs) {
-    super(context, attrs);
-    init();
-  }
-
-  public SideArcsView(Context context, AttributeSet attrs, int defStyleAttr) {
-    super(context, attrs, defStyleAttr);
-    init();
-  }
-
   private void init() {
     initPaint();
     arcAngle = MAX_RESIZE_ANGLE;
@@ -51,8 +41,8 @@ public class SideArcsView extends ComponentViewAnimation {
 
   private void initPaint() {
     paint = new Paint();
-    paint.setColor(getResources().getColor(R.color.main_circle));
-    paint.setStrokeWidth(12);
+    paint.setColor(mainColor);
+    paint.setStrokeWidth(strokeWidth);
     paint.setStyle(Paint.Style.STROKE);
   }
 

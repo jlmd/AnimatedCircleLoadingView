@@ -27,16 +27,6 @@ public class TopCircleView extends ComponentViewAnimation {
     init();
   }
 
-  public TopCircleView(Context context, AttributeSet attrs) {
-    super(context, attrs);
-    init();
-  }
-
-  public TopCircleView(Context context, AttributeSet attrs, int defStyleAttr) {
-    super(context, attrs, defStyleAttr);
-    init();
-  }
-
   private void init() {
     initPaint();
     arcAngle = MIN_ANGLE;
@@ -44,15 +34,15 @@ public class TopCircleView extends ComponentViewAnimation {
 
   private void initPaint() {
     paint = new Paint();
-    paint.setColor(getResources().getColor(R.color.main_circle));
-    paint.setStrokeWidth(12);
+    paint.setColor(mainColor);
+    paint.setStrokeWidth(strokeWidth);
     paint.setStyle(Paint.Style.STROKE);
   }
 
   private void initOval() {
     float padding = paint.getStrokeWidth() / 2;
     oval = new RectF();
-    oval.set(parentCenter - circleRadius, padding, (getWidth() / 2) + circleRadius,
+    oval.set(parentCenter - circleRadius, padding, parentCenter + circleRadius,
         circleRadius * 2);
   }
 
