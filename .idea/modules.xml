@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/CircularLoadingAnimation.iml" filepath="$PROJECT_DIR$/CircularLoadingAnimation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/AnimatedCircleLoadingView.iml" filepath="$PROJECT_DIR$/AnimatedCircleLoadingView.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
     </modules>
   </component>
 </project>
