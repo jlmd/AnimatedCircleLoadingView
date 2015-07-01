@@ -6,9 +6,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.util.AttributeSet;
 import android.view.animation.DecelerateInterpolator;
-import com.jlmd.android.circularloadinganimation.R;
 import com.jlmd.android.circularloadinganimation.view.animator.AnimationState;
 
 /**
@@ -66,7 +64,7 @@ public class SideArcsView extends ComponentViewAnimation {
   public void startRotateAnimation() {
     ValueAnimator valueAnimator = ValueAnimator.ofInt(MIN_START_ANGLE, MAX_START_ANGLE);
     valueAnimator.setInterpolator(new DecelerateInterpolator());
-    valueAnimator.setDuration(700);
+    valueAnimator.setDuration(550);
     valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
       @Override
       public void onAnimationUpdate(ValueAnimator animation) {
@@ -81,12 +79,13 @@ public class SideArcsView extends ComponentViewAnimation {
   public void startResizeDownAnimation() {
     ValueAnimator valueAnimator = ValueAnimator.ofInt(MAX_RESIZE_ANGLE, MIN_RESIZE_ANGLE);
     valueAnimator.setInterpolator(new DecelerateInterpolator());
-    valueAnimator.setDuration(700);
+    valueAnimator.setDuration(620);
     valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
       @Override
       public void onAnimationUpdate(ValueAnimator animation) {
         arcAngle = (int) animation.getAnimatedValue();
         invalidate();
+
       }
     });
     valueAnimator.addListener(new Animator.AnimatorListener() {

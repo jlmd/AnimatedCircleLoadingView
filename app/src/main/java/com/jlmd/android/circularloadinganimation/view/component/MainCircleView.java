@@ -57,7 +57,7 @@ public class MainCircleView extends ComponentViewAnimation {
 
   public void startFillCircleAnimation() {
     ValueAnimator valueAnimator = ValueAnimator.ofInt(90, 360);
-    valueAnimator.setDuration(1000);
+    valueAnimator.setDuration(800);
     valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
       @Override
       public void onAnimationUpdate(ValueAnimator animation) {

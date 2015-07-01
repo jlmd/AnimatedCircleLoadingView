@@ -6,29 +6,28 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.util.AttributeSet;
 import android.view.animation.DecelerateInterpolator;
-import com.jlmd.android.circularloadinganimation.R;
 import com.jlmd.android.circularloadinganimation.view.animator.AnimationState;
 
 /**
  * @author jlmd
  */
-public class TopCircleView extends ComponentViewAnimation {
+public class TopCircleBorderView extends ComponentViewAnimation {
 
-  private static final int MIN_ANGLE = 0;
+  private static final int MIN_ANGLE = 25;
   private static final int MAX_ANGLE = 180;
   private Paint paint;
   private RectF oval;
   private int arcAngle;
 
-  public TopCircleView(Context context, int parentWidth) {
+  public TopCircleBorderView(Context context, int parentWidth) {
     super(context, parentWidth);
     init();
   }
 
   private void init() {
     initPaint();
+    initOval();
     arcAngle = MIN_ANGLE;
   }
 
@@ -57,16 +56,10 @@ public class TopCircleView extends ComponentViewAnimation {
     canvas.drawArc(oval, 270, -arcAngle, false, paint);
   }
 
-  @Override
-  protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-    super.onSizeChanged(w, h, oldw, oldh);
-    initOval();
-  }
-
   public void startDrawCircleAnimation() {
     ValueAnimator valueAnimator = ValueAnimator.ofInt(MIN_ANGLE, MAX_ANGLE);
     valueAnimator.setInterpolator(new DecelerateInterpolator());
-    valueAnimator.setDuration(500);
+    valueAnimator.setDuration(400);
     valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
       @Override
       public void onAnimationUpdate(ValueAnimator animation) {

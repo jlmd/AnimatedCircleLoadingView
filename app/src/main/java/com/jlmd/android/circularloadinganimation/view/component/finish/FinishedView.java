@@ -59,7 +59,8 @@ public abstract class FinishedView extends ComponentViewAnimation {
   }
 
   private void startScaleCircleAnimation() {
-    ValueAnimator valueCircleAnimator = ValueAnimator.ofFloat(circleRadius, circleMaxRadius);
+    ValueAnimator valueCircleAnimator =
+        ValueAnimator.ofFloat(circleRadius + strokeWidth / 2, circleMaxRadius);
     valueCircleAnimator.setDuration(1000);
     valueCircleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
       @Override

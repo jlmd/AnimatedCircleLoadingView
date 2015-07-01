@@ -6,6 +6,7 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import com.jlmd.android.circularloadinganimation.view.animator.AnimationState;
 
 /**
@@ -14,7 +15,8 @@ import com.jlmd.android.circularloadinganimation.view.animator.AnimationState;
 public class InitialCenterCircleView extends ComponentViewAnimation {
 
   private float minRadius;
-  private float currentCircleRadius;
+  private float currentCircleWidth;
+  private float currentCircleHeight;
 
   public InitialCenterCircleView(Context context, int parentWidth) {
     super(context, parentWidth);
@@ -23,7 +25,8 @@ public class InitialCenterCircleView extends ComponentViewAnimation {
 
   private void init() {
     minRadius = (15 * parentWidth) / 700;
-    currentCircleRadius = minRadius;
+    currentCircleWidth = minRadius;
+    currentCircleHeight = minRadius;
   }
 
   @Override
@@ -36,12 +39,17 @@ public class InitialCenterCircleView extends ComponentViewAnimation {
     Paint paint = new Paint();
     paint.setStyle(Paint.Style.FILL_AND_STROKE);
     paint.setColor(mainColor);
-    canvas.drawCircle(parentCenter, parentCenter, currentCircleRadius, paint);
+    //canvas.drawCircle(parentCenter, parentCenter, currentCircleRadius, paint);
+    //canvas.drawArc(parentCenter - currentCircleRadius, parentCenter - currentCircleRadius,
+    //    parentCenter + currentCircleRadius, parentCenter + currentCircleRadius, 0, 360, false, paint);
+    RectF oval = new RectF();
+    oval.set(parentCenter - currentCircleWidth, parentCenter - currentCircleHeight,
+        parentCenter + currentCircleWidth, parentCenter + currentCircleHeight);
+    canvas.drawOval(oval, paint);
   }
 
   public void startTranslateTopAnimation() {
     float translationYTo = -(255 * parentWidth) / 700;
-
     ObjectAnimator translationY = ObjectAnimator.ofFloat(this, "translationY", 0, translationYTo);
     translationY.setDuration(1100);
     translationY.addListener(new Animator.AnimatorListener() {
@@ -74,7 +82,8 @@ public class InitialCenterCircleView extends ComponentViewAnimation {
     valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
       @Override
       public void onAnimationUpdate(ValueAnimator animation) {
-        currentCircleRadius = (float) animation.getAnimatedValue();
+        currentCircleWidth = (float) animation.getAnimatedValue();
+        currentCircleHeight = (float) animation.getAnimatedValue();
         invalidate();
       }
     });
@@ -83,27 +92,26 @@ public class InitialCenterCircleView extends ComponentViewAnimation {
 
   public void startTranslateBottomAnimation() {
     float translationYFrom = -(260 * parentWidth) / 700;
-    float translationYTo = (600 * parentWidth) / 700;
-
+    float translationYTo = (360 * parentWidth) / 700;
     ObjectAnimator translationY =
         ObjectAnimator.ofFloat(this, "translationY", translationYFrom, translationYTo);
-    translationY.setDuration(700);
+    translationY.setDuration(650);
     translationY.start();
   }
 
   public void startScaleDisappear() {
-    float maxScaleSize = (200 * parentWidth) / 700;
-    ValueAnimator valueAnimator = ValueAnimator.ofFloat(circleRadius, maxScaleSize);
-    valueAnimator.setDuration(75);
-    valueAnimator.setStartDelay(460);
-    valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+    float maxScaleSize = (250 * parentWidth) / 700;
+    ValueAnimator valueScaleWidthAnimator = ValueAnimator.ofFloat(circleRadius, maxScaleSize);
+    valueScaleWidthAnimator.setDuration(260);
+    valueScaleWidthAnimator.setStartDelay(430);
+    valueScaleWidthAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
       @Override
       public void onAnimationUpdate(ValueAnimator animation) {
-        currentCircleRadius = (float) animation.getAnimatedValue();
+        currentCircleWidth = (float) animation.getAnimatedValue();
         invalidate();
       }
     });
-    valueAnimator.addListener(new Animator.AnimatorListener() {
+    valueScaleWidthAnimator.addListener(new Animator.AnimatorListener() {
       @Override
       public void onAnimationStart(Animator animation) {
         // Empty
@@ -111,8 +119,9 @@ public class InitialCenterCircleView extends ComponentViewAnimation {
 
       @Override
       public void onAnimationEnd(Animator animation) {
-        currentCircleRadius = circleRadius;
         setState(AnimationState.MAIN_CIRCLE_SCALED_DISAPPEAR);
+        currentCircleWidth = circleRadius + (strokeWidth / 2);
+        currentCircleHeight = circleRadius + (strokeWidth / 2);
       }
 
       @Override
@@ -125,12 +134,25 @@ public class InitialCenterCircleView extends ComponentViewAnimation {
         // Empty
       }
     });
-    valueAnimator.start();
+    valueScaleWidthAnimator.start();
+
+    ValueAnimator valueScaleHeightAnimator = ValueAnimator.ofFloat(circleRadius, circleRadius / 2);
+    valueScaleHeightAnimator.setDuration(260);
+    valueScaleHeightAnimator.setStartDelay(430);
+    valueScaleHeightAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+      @Override
+      public void onAnimationUpdate(ValueAnimator animation) {
+        currentCircleHeight = (float) animation.getAnimatedValue();
+        invalidate();
+      }
+    });
+    valueScaleHeightAnimator.start();
   }
 
   public void startTranslateCenterAnimation() {
     float translationYFrom = -(260 * parentWidth) / 700;
     ObjectAnimator translationY = ObjectAnimator.ofFloat(this, "translationY", translationYFrom, 0);
+    translationY.setDuration(650);
     translationY.addListener(new Animator.AnimatorListener() {
       @Override
       public void onAnimationStart(Animator animation) {
@@ -152,7 +174,6 @@ public class InitialCenterCircleView extends ComponentViewAnimation {
         // Empty
       }
     });
-    translationY.setDuration(700);
     translationY.start();
   }
 }

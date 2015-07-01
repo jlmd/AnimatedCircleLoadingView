@@ -1,7 +1,6 @@
 package com.jlmd.android.circularloadinganimation;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import com.jlmd.android.circularloadinganimation.view.CircleLoadingView;
 
@@ -15,24 +14,37 @@ public class MainActivity extends ActionBarActivity {
     setContentView(R.layout.activity_main);
     circleLoadingView = (CircleLoadingView) findViewById(R.id.circle_loading_view);
     startLoading();
-    stopLoadingDelayed();
+    startPercentMockThread();
   }
 
   private void startLoading() {
-    circleLoadingView.startIndeterminate();
+    circleLoadingView.startDeterminate();
   }
 
-  private void stopLoadingDelayed() {
-    final Handler handler = new Handler();
-    handler.postDelayed(new Runnable() {
+  private void startPercentMockThread() {
+    Runnable runnable = new Runnable() {
       @Override
       public void run() {
-        stopLoading();
+        try {
+          Thread.sleep(1500);
+          for (int i = 0; i <= 100; i++) {
+            Thread.sleep(65);
+            changePercent(i);
+          }
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
       }
-    }, 7000);
+    };
+    new Thread(runnable).start();
   }
 
-  private void stopLoading() {
-    circleLoadingView.stopOk();
+  private void changePercent(final int percent) {
+    runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        circleLoadingView.setPercent(percent);
+      }
+    });
   }
 }

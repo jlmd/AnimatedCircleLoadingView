@@ -51,12 +51,12 @@ public class RightCircleView extends ComponentViewAnimation {
     int bottomMovementAddition = (260 * parentWidth) / 700;
     TranslateAnimation translateAnimation =
         new TranslateAnimation(getX(), getX(), getY(), getY() + bottomMovementAddition);
-    translateAnimation.setStartOffset(200l);
-    translateAnimation.setDuration(1000l);
+    translateAnimation.setStartOffset(200);
+    translateAnimation.setDuration(1000);
 
     AlphaAnimation alphaAnimation = new AlphaAnimation(1, 0);
-    alphaAnimation.setStartOffset(1300l);
-    alphaAnimation.setDuration(200l);
+    alphaAnimation.setStartOffset(1300);
+    alphaAnimation.setDuration(200);
 
     AnimationSet animationSet = new AnimationSet(true);
     animationSet.addAnimation(translateAnimation);

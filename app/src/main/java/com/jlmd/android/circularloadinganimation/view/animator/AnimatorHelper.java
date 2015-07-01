@@ -1,13 +1,14 @@
 package com.jlmd.android.circularloadinganimation.view.animator;
 
 import com.jlmd.android.circularloadinganimation.view.component.ComponentViewAnimation;
-import com.jlmd.android.circularloadinganimation.view.component.finish.FinishedFailureView;
-import com.jlmd.android.circularloadinganimation.view.component.finish.FinishedOkView;
 import com.jlmd.android.circularloadinganimation.view.component.InitialCenterCircleView;
 import com.jlmd.android.circularloadinganimation.view.component.MainCircleView;
+import com.jlmd.android.circularloadinganimation.view.component.PercentIndicatorView;
 import com.jlmd.android.circularloadinganimation.view.component.RightCircleView;
 import com.jlmd.android.circularloadinganimation.view.component.SideArcsView;
-import com.jlmd.android.circularloadinganimation.view.component.TopCircleView;
+import com.jlmd.android.circularloadinganimation.view.component.TopCircleBorderView;
+import com.jlmd.android.circularloadinganimation.view.component.finish.FinishedFailureView;
+import com.jlmd.android.circularloadinganimation.view.component.finish.FinishedOkView;
 
 /**
  * @author jlmd
@@ -17,23 +18,26 @@ public class AnimatorHelper implements ComponentViewAnimation.StateListener {
   private InitialCenterCircleView initialCenterCircleView;
   private RightCircleView rightCircleView;
   private SideArcsView sideArcsView;
-  private TopCircleView topCircleView;
+  private TopCircleBorderView topCircleBorderView;
   private MainCircleView mainCircleView;
   private FinishedOkView finishedOkView;
   private FinishedFailureView finishedFailureView;
+  private PercentIndicatorView percentIndicatorView;
   private AnimationState finishedState;
 
   public void setComponentViewAnimations(InitialCenterCircleView initialCenterCircleView,
-      RightCircleView rightCircleView, SideArcsView sideArcsView, TopCircleView topCircleView,
-      MainCircleView mainCircleView, FinishedOkView finishedOkCircleView,
-      FinishedFailureView finishedFailureView) {
+      RightCircleView rightCircleView, SideArcsView sideArcsView,
+      TopCircleBorderView topCircleBorderView, MainCircleView mainCircleView,
+      FinishedOkView finishedOkCircleView, FinishedFailureView finishedFailureView,
+      PercentIndicatorView percentIndicatorView) {
     this.initialCenterCircleView = initialCenterCircleView;
     this.rightCircleView = rightCircleView;
     this.sideArcsView = sideArcsView;
-    this.topCircleView = topCircleView;
+    this.topCircleBorderView = topCircleBorderView;
     this.mainCircleView = mainCircleView;
     this.finishedOkView = finishedOkCircleView;
     this.finishedFailureView = finishedFailureView;
+    this.percentIndicatorView = percentIndicatorView;
     initListeners();
   }
 
@@ -41,7 +45,7 @@ public class AnimatorHelper implements ComponentViewAnimation.StateListener {
     initialCenterCircleView.setStateListener(this);
     rightCircleView.setStateListener(this);
     sideArcsView.setStateListener(this);
-    topCircleView.setStateListener(this);
+    topCircleBorderView.setStateListener(this);
     mainCircleView.setStateListener(this);
     finishedOkView.setStateListener(this);
     finishedFailureView.setStateListener(this);
@@ -102,15 +106,16 @@ public class AnimatorHelper implements ComponentViewAnimation.StateListener {
   }
 
   private void onMainCircleScaledDisappear() {
+    initialCenterCircleView.hideView();
     sideArcsView.showView();
     sideArcsView.startRotateAnimation();
     sideArcsView.startResizeDownAnimation();
   }
 
   private void onSideArcsResizedTop() {
+    topCircleBorderView.showView();
+    topCircleBorderView.startDrawCircleAnimation();
     sideArcsView.hideView();
-    topCircleView.showView();
-    topCircleView.startDrawCircleAnimation();
   }
 
   private void onMainCircleDrawnTop() {
@@ -121,9 +126,11 @@ public class AnimatorHelper implements ComponentViewAnimation.StateListener {
   private void onMainCircleFilledTop() {
     if (isAnimationFinished()) {
       onStateChanged(finishedState);
+      percentIndicatorView.startAlphaAnimation();
     } else {
-      topCircleView.hideView();
+      topCircleBorderView.hideView();
       mainCircleView.hideView();
+      initialCenterCircleView.showView();
       initialCenterCircleView.startTranslateBottomAnimation();
       initialCenterCircleView.startScaleDisappear();
     }
@@ -134,9 +141,10 @@ public class AnimatorHelper implements ComponentViewAnimation.StateListener {
   }
 
   private void onFinished(AnimationState state) {
-    topCircleView.hideView();
+    topCircleBorderView.hideView();
     mainCircleView.hideView();
     finishedState = state;
+    initialCenterCircleView.showView();
     initialCenterCircleView.startTranslateCenterAnimation();
   }
 

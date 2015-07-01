@@ -4,13 +4,14 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 import com.jlmd.android.circularloadinganimation.view.animator.AnimatorHelper;
-import com.jlmd.android.circularloadinganimation.view.component.finish.FinishedFailureView;
-import com.jlmd.android.circularloadinganimation.view.component.finish.FinishedOkView;
 import com.jlmd.android.circularloadinganimation.view.component.InitialCenterCircleView;
 import com.jlmd.android.circularloadinganimation.view.component.MainCircleView;
+import com.jlmd.android.circularloadinganimation.view.component.PercentIndicatorView;
 import com.jlmd.android.circularloadinganimation.view.component.RightCircleView;
 import com.jlmd.android.circularloadinganimation.view.component.SideArcsView;
-import com.jlmd.android.circularloadinganimation.view.component.TopCircleView;
+import com.jlmd.android.circularloadinganimation.view.component.TopCircleBorderView;
+import com.jlmd.android.circularloadinganimation.view.component.finish.FinishedFailureView;
+import com.jlmd.android.circularloadinganimation.view.component.finish.FinishedOkView;
 
 /**
  * @author jlmd
@@ -22,11 +23,13 @@ public class CircleLoadingView extends FrameLayout {
   private RightCircleView rightCircleView;
   private SideArcsView sideArcsView;
   private MainCircleView mainCircleView;
-  private TopCircleView topCircleView;
+  private TopCircleBorderView topCircleBorderView;
   private FinishedOkView finishedOkView;
   private FinishedFailureView finishedFailureView;
+  private PercentIndicatorView percentIndicatorView;
   private AnimatorHelper animatorHelper;
   private boolean startAnimationIndeterminate;
+  private boolean startAnimationDeterminate;
 
   public CircleLoadingView(Context context) {
     super(context);
@@ -51,6 +54,11 @@ public class CircleLoadingView extends FrameLayout {
       animatorHelper.startAnimator();
       startAnimationIndeterminate = false;
     }
+    if (startAnimationDeterminate) {
+      addView(percentIndicatorView);
+      animatorHelper.startAnimator();
+      startAnimationDeterminate = false;
+    }
   }
 
   private void init() {
@@ -64,17 +72,18 @@ public class CircleLoadingView extends FrameLayout {
     initialCenterCircleView = new InitialCenterCircleView(context, width);
     rightCircleView = new RightCircleView(context, width);
     sideArcsView = new SideArcsView(context, width);
-    topCircleView = new TopCircleView(context, width);
+    topCircleBorderView = new TopCircleBorderView(context, width);
     mainCircleView = new MainCircleView(context, width);
     finishedOkView = new FinishedOkView(context, width);
     finishedFailureView = new FinishedFailureView(context, width);
+    percentIndicatorView = new PercentIndicatorView(context, width);
   }
 
   private void addComponentsViews() {
     addView(initialCenterCircleView);
     addView(rightCircleView);
     addView(sideArcsView);
-    addView(topCircleView);
+    addView(topCircleBorderView);
     addView(mainCircleView);
     addView(finishedOkView);
     addView(finishedFailureView);
@@ -83,11 +92,25 @@ public class CircleLoadingView extends FrameLayout {
   private void initAnimatorHelper() {
     animatorHelper = new AnimatorHelper();
     animatorHelper.setComponentViewAnimations(initialCenterCircleView, rightCircleView,
-        sideArcsView, topCircleView, mainCircleView, finishedOkView, finishedFailureView);
+        sideArcsView, topCircleBorderView, mainCircleView, finishedOkView, finishedFailureView,
+        percentIndicatorView);
   }
 
   public void startIndeterminate() {
     startAnimationIndeterminate = true;
+  }
+
+  public void startDeterminate() {
+    startAnimationDeterminate = true;
+  }
+
+  public void setPercent(int percent) {
+    if (percentIndicatorView != null) {
+      percentIndicatorView.setPercent(percent);
+      if (percent == 100) {
+        animatorHelper.finishOk();
+      }
+    }
   }
 
   public void stopOk() {
