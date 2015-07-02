@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <declare-styleable name="AnimatedCircleLoadingView">
+    <attr name="mainColor" format="color" localization="suggested" />
+    <attr name="secondaryColor" format="color" localization="suggested" />
+  </declare-styleable>
+</resources>

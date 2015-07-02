@@ -26,8 +26,8 @@ public class SideArcsView extends ComponentViewAnimation {
   private RectF oval;
   private int arcAngle;
 
-  public SideArcsView(Context context, int parentWidth) {
-    super(context, parentWidth);
+  public SideArcsView(Context context, int parentWidth, int mainColor, int secondaryColor) {
+    super(context, parentWidth, mainColor, secondaryColor);
     init();
   }
 
@@ -85,7 +85,6 @@ public class SideArcsView extends ComponentViewAnimation {
       public void onAnimationUpdate(ValueAnimator animation) {
         arcAngle = (int) animation.getAnimatedValue();
         invalidate();
-
       }
     });
     valueAnimator.addListener(new Animator.AnimatorListener() {

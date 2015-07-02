@@ -20,8 +20,8 @@ public class TopCircleBorderView extends ComponentViewAnimation {
   private RectF oval;
   private int arcAngle;
 
-  public TopCircleBorderView(Context context, int parentWidth) {
-    super(context, parentWidth);
+  public TopCircleBorderView(Context context, int parentWidth, int mainColor, int secondaryColor) {
+    super(context, parentWidth, mainColor, secondaryColor);
     init();
   }
 
@@ -41,8 +41,7 @@ public class TopCircleBorderView extends ComponentViewAnimation {
   private void initOval() {
     float padding = paint.getStrokeWidth() / 2;
     oval = new RectF();
-    oval.set(parentCenter - circleRadius, padding, parentCenter + circleRadius,
-        circleRadius * 2);
+    oval.set(parentCenter - circleRadius, padding, parentCenter + circleRadius, circleRadius * 2);
   }
 
   @Override

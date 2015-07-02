@@ -1,29 +1,41 @@
 package com.jlmd.android.animatedcircleloadingview;
 
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
-import com.jlmd.android.animatedcircleloadingview.animator.AnimatorHelper;
-import com.jlmd.android.animatedcircleloadingview.component.*;
-import com.jlmd.android.animatedcircleloadingview.component.finish.*;
+import com.jlmd.android.animatedcircleloadingview.animator.ViewAnimator;
+import com.jlmd.android.animatedcircleloadingview.component.InitialCenterCircleView;
+import com.jlmd.android.animatedcircleloadingview.component.MainCircleView;
+import com.jlmd.android.animatedcircleloadingview.component.PercentIndicatorView;
+import com.jlmd.android.animatedcircleloadingview.component.RightCircleView;
+import com.jlmd.android.animatedcircleloadingview.component.SideArcsView;
+import com.jlmd.android.animatedcircleloadingview.component.TopCircleBorderView;
+import com.jlmd.android.animatedcircleloadingview.component.finish.FinishedFailureView;
+import com.jlmd.android.animatedcircleloadingview.component.finish.FinishedOkView;
 
 /**
  * @author jlmd
  */
 public class AnimatedCircleLoadingView extends FrameLayout {
 
+  private static final String DEFAULT_HEX_MAIN_COLOR = "#FF9A00";
+  private static final String DEFAULT_HEX_SECONDARY_COLOR = "#BDBDBD";
   private final Context context;
   private InitialCenterCircleView initialCenterCircleView;
+  private MainCircleView mainCircleView;
   private RightCircleView rightCircleView;
   private SideArcsView sideArcsView;
-  private MainCircleView mainCircleView;
   private TopCircleBorderView topCircleBorderView;
   private FinishedOkView finishedOkView;
   private FinishedFailureView finishedFailureView;
   private PercentIndicatorView percentIndicatorView;
-  private AnimatorHelper animatorHelper;
+  private ViewAnimator viewAnimator;
   private boolean startAnimationIndeterminate;
   private boolean startAnimationDeterminate;
+  private int mainColor;
+  private int secondaryColor;
 
   public AnimatedCircleLoadingView(Context context) {
     super(context);
@@ -33,11 +45,23 @@ public class AnimatedCircleLoadingView extends FrameLayout {
   public AnimatedCircleLoadingView(Context context, AttributeSet attrs) {
     super(context, attrs);
     this.context = context;
+    initAttributes(attrs);
   }
 
   public AnimatedCircleLoadingView(Context context, AttributeSet attrs, int defStyleAttr) {
     super(context, attrs, defStyleAttr);
     this.context = context;
+    initAttributes(attrs);
+  }
+
+  private void initAttributes(AttributeSet attrs) {
+    TypedArray attributes =
+        getContext().obtainStyledAttributes(attrs, R.styleable.AnimatedCircleLoadingView);
+    mainColor = attributes.getColor(R.styleable.AnimatedCircleLoadingView_mainColor,
+        Color.parseColor(DEFAULT_HEX_MAIN_COLOR));
+    secondaryColor = attributes.getColor(R.styleable.AnimatedCircleLoadingView_secondaryColor,
+        Color.parseColor(DEFAULT_HEX_SECONDARY_COLOR));
+    attributes.recycle();
   }
 
   @Override
@@ -45,14 +69,20 @@ public class AnimatedCircleLoadingView extends FrameLayout {
     super.onSizeChanged(w, h, oldw, oldh);
     init();
     if (startAnimationIndeterminate) {
-      animatorHelper.startAnimator();
+      viewAnimator.startAnimator();
       startAnimationIndeterminate = false;
     }
     if (startAnimationDeterminate) {
       addView(percentIndicatorView);
-      animatorHelper.startAnimator();
+      viewAnimator.startAnimator();
       startAnimationDeterminate = false;
     }
+  }
+
+  @Override
+  protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    // Force view to be a square
+    super.onMeasure(widthMeasureSpec, widthMeasureSpec);
   }
 
   private void init() {
@@ -63,13 +93,14 @@ public class AnimatedCircleLoadingView extends FrameLayout {
 
   private void initComponents() {
     int width = getWidth();
-    initialCenterCircleView = new InitialCenterCircleView(context, width);
-    rightCircleView = new RightCircleView(context, width);
-    sideArcsView = new SideArcsView(context, width);
-    topCircleBorderView = new TopCircleBorderView(context, width);
-    mainCircleView = new MainCircleView(context, width);
-    finishedOkView = new FinishedOkView(context, width);
-    finishedFailureView = new FinishedFailureView(context, width);
+    initialCenterCircleView =
+        new InitialCenterCircleView(context, width, mainColor, secondaryColor);
+    rightCircleView = new RightCircleView(context, width, mainColor, secondaryColor);
+    sideArcsView = new SideArcsView(context, width, mainColor, secondaryColor);
+    topCircleBorderView = new TopCircleBorderView(context, width, mainColor, secondaryColor);
+    mainCircleView = new MainCircleView(context, width, mainColor, secondaryColor);
+    finishedOkView = new FinishedOkView(context, width, mainColor, secondaryColor);
+    finishedFailureView = new FinishedFailureView(context, width, mainColor, secondaryColor);
     percentIndicatorView = new PercentIndicatorView(context, width);
   }
 
@@ -84,9 +115,9 @@ public class AnimatedCircleLoadingView extends FrameLayout {
   }
 
   private void initAnimatorHelper() {
-    animatorHelper = new AnimatorHelper();
-    animatorHelper.setComponentViewAnimations(initialCenterCircleView, rightCircleView,
-        sideArcsView, topCircleBorderView, mainCircleView, finishedOkView, finishedFailureView,
+    viewAnimator = new ViewAnimator();
+    viewAnimator.setComponentViewAnimations(initialCenterCircleView, rightCircleView, sideArcsView,
+        topCircleBorderView, mainCircleView, finishedOkView, finishedFailureView,
         percentIndicatorView);
   }
 
@@ -102,16 +133,16 @@ public class AnimatedCircleLoadingView extends FrameLayout {
     if (percentIndicatorView != null) {
       percentIndicatorView.setPercent(percent);
       if (percent == 100) {
-        animatorHelper.finishOk();
+        viewAnimator.finishOk();
       }
     }
   }
 
   public void stopOk() {
-    animatorHelper.finishOk();
+    viewAnimator.finishOk();
   }
 
   public void stopFailure() {
-    animatorHelper.finishFailure();
+    viewAnimator.finishFailure();
   }
 }

@@ -1,7 +1,6 @@
 package com.jlmd.android.animatedcircleloadingview.component;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.View;
 import com.jlmd.android.animatedcircleloadingview.animator.AnimationState;
 import com.jlmd.android.animatedcircleloadingview.exception.NullStateListenerException;
@@ -11,19 +10,20 @@ import com.jlmd.android.animatedcircleloadingview.exception.NullStateListenerExc
  */
 public abstract class ComponentViewAnimation extends View {
 
-  private static final String DEFAULT_HEX_MAIN_COLOR = "#FF9A00";
-  private static final String DEFAULT_HEX_SECONDARY_COLOR = "#BDBDBD";
   protected final int parentWidth;
-  protected int mainColor;
-  protected int secondaryColor;
+  protected final int mainColor;
+  protected final int secondaryColor;
   protected float parentCenter;
   protected float circleRadius;
   protected int strokeWidth;
   private StateListener stateListener;
 
-  public ComponentViewAnimation(Context context, int parentWidth) {
+  public ComponentViewAnimation(Context context, int parentWidth, int mainColor,
+      int secondaryColor) {
     super(context);
     this.parentWidth = parentWidth;
+    this.mainColor = mainColor;
+    this.secondaryColor = secondaryColor;
     init();
   }
 
@@ -32,8 +32,6 @@ public abstract class ComponentViewAnimation extends View {
     circleRadius = parentWidth / 10;
     parentCenter = parentWidth / 2;
     strokeWidth = (12 * parentWidth) / 700;
-    mainColor = Color.parseColor(DEFAULT_HEX_MAIN_COLOR);
-    secondaryColor = Color.parseColor(DEFAULT_HEX_SECONDARY_COLOR);
   }
 
   public void hideView() {
@@ -42,14 +40,6 @@ public abstract class ComponentViewAnimation extends View {
 
   public void showView() {
     setVisibility(View.VISIBLE);
-  }
-
-  public void setMainColor(int mainColor) {
-    this.mainColor = mainColor;
-  }
-
-  public void setSecondaryColor(int secondaryColor) {
-    this.secondaryColor = secondaryColor;
   }
 
   public void setState(AnimationState state) {

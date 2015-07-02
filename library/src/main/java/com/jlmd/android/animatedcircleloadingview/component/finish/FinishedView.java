@@ -20,8 +20,8 @@ public abstract class FinishedView extends ComponentViewAnimation {
   private float currentCircleRadius;
   private int imageSize;
 
-  public FinishedView(Context context, int parentWidth) {
-    super(context, parentWidth);
+  public FinishedView(Context context, int parentWidth, int mainColor, int secondaryColor) {
+    super(context, parentWidth, mainColor, secondaryColor);
     init();
   }
 

@@ -18,8 +18,9 @@ public class InitialCenterCircleView extends ComponentViewAnimation {
   private float currentCircleWidth;
   private float currentCircleHeight;
 
-  public InitialCenterCircleView(Context context, int parentWidth) {
-    super(context, parentWidth);
+  public InitialCenterCircleView(Context context, int parentWidth, int mainColor,
+      int secondaryColor) {
+    super(context, parentWidth, mainColor, secondaryColor);
     init();
   }
 

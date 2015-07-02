@@ -8,8 +8,8 @@ import com.jlmd.android.animatedcircleloadingview.R;
  */
 public class FinishedOkView extends FinishedView {
 
-  public FinishedOkView(Context context, int parentWidth) {
-    super(context, parentWidth);
+  public FinishedOkView(Context context, int parentWidth, int mainColor, int secondaryColor) {
+    super(context, parentWidth, mainColor, secondaryColor);
   }
 
   @Override

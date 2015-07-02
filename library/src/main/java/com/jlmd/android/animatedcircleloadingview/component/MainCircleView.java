@@ -18,8 +18,8 @@ public class MainCircleView extends ComponentViewAnimation {
   private int arcFillAngle = 0;
   private int arcStartAngle = 0;
 
-  public MainCircleView(Context context, int parentWidth) {
-    super(context, parentWidth);
+  public MainCircleView(Context context, int parentWidth, int mainColor, int secondaryColor) {
+    super(context, parentWidth, mainColor, secondaryColor);
     init();
   }
 
@@ -38,8 +38,7 @@ public class MainCircleView extends ComponentViewAnimation {
   private void initOval() {
     float padding = paint.getStrokeWidth() / 2;
     oval = new RectF();
-    oval.set(parentCenter - circleRadius, padding, parentCenter + circleRadius,
-        circleRadius * 2);
+    oval.set(parentCenter - circleRadius, padding, parentCenter + circleRadius, circleRadius * 2);
   }
 
   @Override

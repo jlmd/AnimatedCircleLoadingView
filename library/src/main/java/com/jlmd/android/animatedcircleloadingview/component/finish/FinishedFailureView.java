@@ -8,8 +8,8 @@ import com.jlmd.android.animatedcircleloadingview.R;
  */
 public class FinishedFailureView extends FinishedView {
 
-  public FinishedFailureView(Context context, int parentWidth) {
-    super(context, parentWidth);
+  public FinishedFailureView(Context context, int parentWidth, int mainColor, int secondaryColor) {
+    super(context, parentWidth, mainColor, secondaryColor);
   }
 
   @Override

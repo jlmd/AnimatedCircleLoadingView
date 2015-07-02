@@ -1,12 +1,19 @@
 package com.jlmd.android.animatedcircleloadingview.animator;
 
-import com.jlmd.android.animatedcircleloadingview.component.*;
-import com.jlmd.android.animatedcircleloadingview.component.finish.*;
+import com.jlmd.android.animatedcircleloadingview.component.ComponentViewAnimation;
+import com.jlmd.android.animatedcircleloadingview.component.InitialCenterCircleView;
+import com.jlmd.android.animatedcircleloadingview.component.MainCircleView;
+import com.jlmd.android.animatedcircleloadingview.component.PercentIndicatorView;
+import com.jlmd.android.animatedcircleloadingview.component.RightCircleView;
+import com.jlmd.android.animatedcircleloadingview.component.SideArcsView;
+import com.jlmd.android.animatedcircleloadingview.component.TopCircleBorderView;
+import com.jlmd.android.animatedcircleloadingview.component.finish.FinishedFailureView;
+import com.jlmd.android.animatedcircleloadingview.component.finish.FinishedOkView;
 
 /**
  * @author jlmd
  */
-public class AnimatorHelper implements ComponentViewAnimation.StateListener {
+public class ViewAnimator implements ComponentViewAnimation.StateListener {
 
   private InitialCenterCircleView initialCenterCircleView;
   private RightCircleView rightCircleView;

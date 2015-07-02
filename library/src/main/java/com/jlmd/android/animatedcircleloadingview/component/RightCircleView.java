@@ -18,8 +18,8 @@ public class RightCircleView extends ComponentViewAnimation {
   private int bottomMargin;
   private Paint paint;
 
-  public RightCircleView(Context context, int parentWidth) {
-    super(context, parentWidth);
+  public RightCircleView(Context context, int parentWidth, int mainColor, int secondaryColor) {
+    super(context, parentWidth, mainColor, secondaryColor);
     init();
   }
 
