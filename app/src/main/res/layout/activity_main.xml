@@ -3,7 +3,7 @@
     android:layout_height="match_parent"
     android:background="@color/background">
 
-    <com.jlmd.android.animatedcircleloadingview.AnimatedCircleLoadingView
+    <com.github.jlmd.animatedcircleloadingview.AnimatedCircleLoadingView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/circle_loading_view"
         android:layout_width="250dp"
