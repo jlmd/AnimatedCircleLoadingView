@@ -87,7 +87,7 @@ José Luis Martín - <joseluis.martind@gmail.com>
 License
 ----
 ```
-Copyright 2014 José Luis Martín
+Copyright 2015 José Luis Martín
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
