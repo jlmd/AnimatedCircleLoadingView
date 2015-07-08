@@ -1,5 +1,6 @@
 Animated Circle Loading View
 =========
+[![Download](https://api.bintray.com/packages/jlmd/maven/AnimatedCircleLoadingView/images/download.svg) ](https://bintray.com/jlmd/maven/AnimatedCircleLoadingView/_latestVersion)
 
 A determiante/indetermiante loading view animation.
 Based on [android-watch-loading-animation](http://www.materialup.com/posts/android-watch-loading-animation) by [Nils Banner](http://www.materialup.com/NilsMedia).
