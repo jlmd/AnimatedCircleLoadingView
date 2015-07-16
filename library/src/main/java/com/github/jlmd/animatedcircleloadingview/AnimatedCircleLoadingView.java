@@ -68,14 +68,20 @@ public class AnimatedCircleLoadingView extends FrameLayout {
   protected void onSizeChanged(int w, int h, int oldw, int oldh) {
     super.onSizeChanged(w, h, oldw, oldh);
     init();
-    if (startAnimationIndeterminate) {
-      viewAnimator.startAnimator();
-      startAnimationIndeterminate = false;
-    }
-    if (startAnimationDeterminate) {
-      addView(percentIndicatorView);
-      viewAnimator.startAnimator();
-      startAnimationDeterminate = false;
+    startAnimation();
+  }
+
+  private void startAnimation() {
+    if (getWidth() != 0 && getHeight() != 0) {
+      if (startAnimationIndeterminate) {
+        viewAnimator.startAnimator();
+        startAnimationIndeterminate = false;
+      }
+      if (startAnimationDeterminate) {
+        addView(percentIndicatorView);
+        viewAnimator.startAnimator();
+        startAnimationDeterminate = false;
+      }
     }
   }
 
@@ -123,10 +129,12 @@ public class AnimatedCircleLoadingView extends FrameLayout {
 
   public void startIndeterminate() {
     startAnimationIndeterminate = true;
+    startAnimation();
   }
 
   public void startDeterminate() {
     startAnimationDeterminate = true;
+    startAnimation();
   }
 
   public void setPercent(int percent) {
