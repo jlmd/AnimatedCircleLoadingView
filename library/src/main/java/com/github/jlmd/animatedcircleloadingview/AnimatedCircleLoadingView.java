@@ -34,6 +34,8 @@ public class AnimatedCircleLoadingView extends FrameLayout {
   private ViewAnimator viewAnimator;
   private boolean startAnimationIndeterminate;
   private boolean startAnimationDeterminate;
+  private boolean stopAnimationOk;
+  private boolean stopAnimationFailure;
   private int mainColor;
   private int secondaryColor;
 
@@ -81,6 +83,12 @@ public class AnimatedCircleLoadingView extends FrameLayout {
         addView(percentIndicatorView);
         viewAnimator.startAnimator();
         startAnimationDeterminate = false;
+      }
+      if (stopAnimationOk) {
+        stopOk();
+      }
+      if (stopAnimationFailure) {
+        stopFailure();
       }
     }
   }
@@ -147,10 +155,18 @@ public class AnimatedCircleLoadingView extends FrameLayout {
   }
 
   public void stopOk() {
-    viewAnimator.finishOk();
+    if (viewAnimator == null) {
+      stopAnimationOk = true;
+    } else {
+      viewAnimator.finishOk();
+    }
   }
 
   public void stopFailure() {
-    viewAnimator.finishFailure();
+    if (viewAnimator == null) {
+      stopAnimationFailure = true;
+    } else {
+      viewAnimator.finishFailure();
+    }
   }
 }
