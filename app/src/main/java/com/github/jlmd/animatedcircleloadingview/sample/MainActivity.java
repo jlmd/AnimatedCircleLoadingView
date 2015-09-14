@@ -2,6 +2,7 @@ package com.github.jlmd.animatedcircleloadingview.sample;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import com.github.jlmd.animatedcircleloadingview.AnimatedCircleLoadingView;
 
 public class MainActivity extends Activity {
@@ -29,6 +30,10 @@ public class MainActivity extends Activity {
           Thread.sleep(1500);
           for (int i = 0; i <= 100; i++) {
             Thread.sleep(65);
+            if (i == 60) {
+              resetLoading();
+              i = 0;
+            }
             changePercent(i);
           }
         } catch (InterruptedException e) {
@@ -44,6 +49,15 @@ public class MainActivity extends Activity {
       @Override
       public void run() {
         animatedCircleLoadingView.setPercent(percent);
+      }
+    });
+  }
+
+  public void resetLoading() {
+    runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        animatedCircleLoadingView.resetLoading();
       }
     });
   }

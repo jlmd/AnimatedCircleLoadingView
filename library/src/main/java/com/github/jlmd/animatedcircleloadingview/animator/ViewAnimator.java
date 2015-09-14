@@ -24,6 +24,7 @@ public class ViewAnimator implements ComponentViewAnimation.StateListener {
   private FinishedFailureView finishedFailureView;
   private PercentIndicatorView percentIndicatorView;
   private AnimationState finishedState;
+  private boolean resetAnimator;
 
   public void setComponentViewAnimations(InitialCenterCircleView initialCenterCircleView,
       RightCircleView rightCircleView, SideArcsView sideArcsView,
@@ -60,6 +61,18 @@ public class ViewAnimator implements ComponentViewAnimation.StateListener {
     rightCircleView.startSecondaryCircleAnimation();
   }
 
+  public void resetAnimator() {
+    initialCenterCircleView.hideView();
+    rightCircleView.hideView();
+    sideArcsView.hideView();
+    topCircleBorderView.hideView();
+    mainCircleView.hideView();
+    finishedOkView.hideView();
+    finishedFailureView.hideView();
+    resetAnimator = true;
+    startAnimator();
+  }
+
   public void finishOk() {
     finishedState = AnimationState.FINISHED_OK;
   }
@@ -70,33 +83,37 @@ public class ViewAnimator implements ComponentViewAnimation.StateListener {
 
   @Override
   public void onStateChanged(AnimationState state) {
-    switch (state) {
-      case MAIN_CIRCLE_TRANSLATED_TOP:
-        onMainCircleTranslatedTop();
-        break;
-      case MAIN_CIRCLE_SCALED_DISAPPEAR:
-        onMainCircleScaledDisappear();
-        break;
-      case MAIN_CIRCLE_FILLED_TOP:
-        onMainCircleFilledTop();
-        break;
-      case SIDE_ARCS_RESIZED_TOP:
-        onSideArcsResizedTop();
-        break;
-      case MAIN_CIRCLE_DRAWN_TOP:
-        onMainCircleDrawnTop();
-        break;
-      case FINISHED_OK:
-        onFinished(state);
-        break;
-      case FINISHED_FAILURE:
-        onFinished(state);
-        break;
-      case MAIN_CIRCLE_TRANSLATED_CENTER:
-        onMainCircleTranslatedCenter();
-        break;
-      default:
-        break;
+    if (resetAnimator) {
+      resetAnimator = false;
+    } else {
+      switch (state) {
+        case MAIN_CIRCLE_TRANSLATED_TOP:
+          onMainCircleTranslatedTop();
+          break;
+        case MAIN_CIRCLE_SCALED_DISAPPEAR:
+          onMainCircleScaledDisappear();
+          break;
+        case MAIN_CIRCLE_FILLED_TOP:
+          onMainCircleFilledTop();
+          break;
+        case SIDE_ARCS_RESIZED_TOP:
+          onSideArcsResizedTop();
+          break;
+        case MAIN_CIRCLE_DRAWN_TOP:
+          onMainCircleDrawnTop();
+          break;
+        case FINISHED_OK:
+          onFinished(state);
+          break;
+        case FINISHED_FAILURE:
+          onFinished(state);
+          break;
+        case MAIN_CIRCLE_TRANSLATED_CENTER:
+          onMainCircleTranslatedCenter();
+          break;
+        default:
+          break;
+      }
     }
   }
 

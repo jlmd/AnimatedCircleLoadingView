@@ -169,4 +169,8 @@ public class AnimatedCircleLoadingView extends FrameLayout {
       viewAnimator.finishFailure();
     }
   }
+
+  public void resetLoading() {
+    viewAnimator.resetAnimator();
+  }
 }
