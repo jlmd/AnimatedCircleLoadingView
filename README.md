@@ -63,6 +63,12 @@ Stop with failure:
 animatedCircleLoadingView.stopFailure();
 ```
 
+Reset loading:
+
+```java
+animatedCircleLoadingView.resetLoading();
+```
+
 Gradle dependency
 ----
 Add repository to your build.gradle

@@ -30,10 +30,6 @@ public class MainActivity extends Activity {
           Thread.sleep(1500);
           for (int i = 0; i <= 100; i++) {
             Thread.sleep(65);
-            if (i == 60) {
-              resetLoading();
-              i = 0;
-            }
             changePercent(i);
           }
         } catch (InterruptedException e) {
