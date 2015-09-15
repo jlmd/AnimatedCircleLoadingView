@@ -172,5 +172,6 @@ public class AnimatedCircleLoadingView extends FrameLayout {
 
   public void resetLoading() {
     viewAnimator.resetAnimator();
+    setPercent(0);
   }
 }
