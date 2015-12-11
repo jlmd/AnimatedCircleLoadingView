@@ -3,5 +3,6 @@
   <declare-styleable name="AnimatedCircleLoadingView">
     <attr name="mainColor" format="color" localization="suggested" />
     <attr name="secondaryColor" format="color" localization="suggested" />
+    <attr name="textColor" format="color" localization="suggested" />
   </declare-styleable>
 </resources>
