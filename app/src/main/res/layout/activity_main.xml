@@ -3,16 +3,16 @@
     android:layout_height="match_parent"
     android:background="@color/background">
 
-    <com.github.jlmd.animatedcircleloadingview.AnimatedCircleLoadingView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/circle_loading_view"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:background="@color/background"
-        android:layout_centerInParent="true"
-        app:mainColor="@color/main_color"
-        app:secondaryColor="@color/secondary_color"
-        app:textColor="@android:color/black"
-        />
+  <com.github.jlmd.animatedcircleloadingview.AnimatedCircleLoadingView
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      android:id="@+id/circle_loading_view"
+      android:layout_width="250dp"
+      android:layout_height="250dp"
+      android:background="@color/background"
+      android:layout_centerInParent="true"
+      app:mainColor="@color/main_color"
+      app:secondaryColor="@color/secondary_color"
+      app:textColor="@android:color/black"
+  />
 
 </RelativeLayout>

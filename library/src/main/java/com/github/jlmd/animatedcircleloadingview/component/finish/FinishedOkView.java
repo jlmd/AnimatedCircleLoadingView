@@ -2,6 +2,7 @@ package com.github.jlmd.animatedcircleloadingview.component.finish;
 
 import android.content.Context;
 import com.github.jlmd.animatedcircleloadingview.R;
+
 /**
  * @author jlmd
  */
