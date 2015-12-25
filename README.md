@@ -14,7 +14,7 @@ How it looks
 
 Usage
 ----
-Add AnimatedCircleLoadingView to your layout and definde mainColor and secondaryColor as custom attributes:
+Add AnimatedCircleLoadingView to your layout and define mainColor and secondaryColor as custom attributes:
 
 ```java
 <com.github.jlmd.animatedcircleloadingview.AnimatedCircleLoadingView
@@ -26,6 +26,7 @@ Add AnimatedCircleLoadingView to your layout and definde mainColor and secondary
     android:layout_centerInParent="true"
     app:mainColor="@color/main_color"
     app:secondaryColor="@color/secondary_color"
+    app:textColor="@android:color/white"
     />
 ```
 
