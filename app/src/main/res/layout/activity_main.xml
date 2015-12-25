@@ -12,6 +12,7 @@
         android:layout_centerInParent="true"
         app:mainColor="@color/main_color"
         app:secondaryColor="@color/secondary_color"
+        app:textColor="@android:color/black"
         />
 
 </RelativeLayout>
