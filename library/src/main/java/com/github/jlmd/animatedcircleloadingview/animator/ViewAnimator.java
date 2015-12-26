@@ -1,5 +1,6 @@
 package com.github.jlmd.animatedcircleloadingview.animator;
 
+import com.github.jlmd.animatedcircleloadingview.AnimatedCircleLoadingView;
 import com.github.jlmd.animatedcircleloadingview.component.ComponentViewAnimation;
 import com.github.jlmd.animatedcircleloadingview.component.InitialCenterCircleView;
 import com.github.jlmd.animatedcircleloadingview.component.MainCircleView;
@@ -25,6 +26,7 @@ public class ViewAnimator implements ComponentViewAnimation.StateListener {
   private PercentIndicatorView percentIndicatorView;
   private AnimationState finishedState;
   private boolean resetAnimator;
+  private AnimatedCircleLoadingView.AnimationListener animationListener;
 
   public void setComponentViewAnimations(InitialCenterCircleView initialCenterCircleView,
       RightCircleView rightCircleView, SideArcsView sideArcsView,
@@ -81,6 +83,10 @@ public class ViewAnimator implements ComponentViewAnimation.StateListener {
     finishedState = AnimationState.FINISHED_FAILURE;
   }
 
+  public void setAnimationListener(AnimatedCircleLoadingView.AnimationListener animationListener) {
+    this.animationListener = animationListener;
+  }
+
   @Override
   public void onStateChanged(AnimationState state) {
     if (resetAnimator) {
@@ -110,6 +116,9 @@ public class ViewAnimator implements ComponentViewAnimation.StateListener {
           break;
         case MAIN_CIRCLE_TRANSLATED_CENTER:
           onMainCircleTranslatedCenter();
+          break;
+        case ANIMATION_END:
+          onAnimationEnd();
           break;
         default:
           break;
@@ -174,5 +183,11 @@ public class ViewAnimator implements ComponentViewAnimation.StateListener {
       finishedFailureView.startScaleAnimation();
     }
     initialCenterCircleView.hideView();
+  }
+
+  private void onAnimationEnd() {
+    if (animationListener != null) {
+      animationListener.onAnimationEnd();
+    }
   }
 }

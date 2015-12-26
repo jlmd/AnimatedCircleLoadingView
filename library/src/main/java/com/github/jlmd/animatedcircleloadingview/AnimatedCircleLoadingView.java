@@ -33,6 +33,7 @@ public class AnimatedCircleLoadingView extends FrameLayout {
   private FinishedFailureView finishedFailureView;
   private PercentIndicatorView percentIndicatorView;
   private ViewAnimator viewAnimator;
+  private AnimationListener animationListener;
   private boolean startAnimationIndeterminate;
   private boolean startAnimationDeterminate;
   private boolean stopAnimationOk;
@@ -134,6 +135,7 @@ public class AnimatedCircleLoadingView extends FrameLayout {
 
   private void initAnimatorHelper() {
     viewAnimator = new ViewAnimator();
+    viewAnimator.setAnimationListener(animationListener);
     viewAnimator.setComponentViewAnimations(initialCenterCircleView, rightCircleView, sideArcsView,
         topCircleBorderView, mainCircleView, finishedOkView, finishedFailureView,
         percentIndicatorView);
@@ -177,5 +179,14 @@ public class AnimatedCircleLoadingView extends FrameLayout {
   public void resetLoading() {
     viewAnimator.resetAnimator();
     setPercent(0);
+  }
+
+  public void setAnimationListener(AnimationListener animationListener) {
+    this.animationListener = animationListener;
+  }
+
+  public interface AnimationListener {
+
+    void onAnimationEnd();
   }
 }

@@ -1,11 +1,13 @@
 package com.github.jlmd.animatedcircleloadingview.component.finish;
 
+import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import com.github.jlmd.animatedcircleloadingview.animator.AnimationState;
 import com.github.jlmd.animatedcircleloadingview.component.ComponentViewAnimation;
 
 /**
@@ -80,6 +82,27 @@ public abstract class FinishedView extends ComponentViewAnimation {
       public void onAnimationUpdate(ValueAnimator animation) {
         imageSize = (int) animation.getAnimatedValue();
         invalidate();
+      }
+    });
+    valueImageAnimator.addListener(new Animator.AnimatorListener() {
+      @Override
+      public void onAnimationStart(Animator animation) {
+        // Empty
+      }
+
+      @Override
+      public void onAnimationEnd(Animator animation) {
+        setState(AnimationState.ANIMATION_END);
+      }
+
+      @Override
+      public void onAnimationCancel(Animator animation) {
+        // Empty
+      }
+
+      @Override
+      public void onAnimationRepeat(Animator animation) {
+        // Empty
       }
     });
     valueImageAnimator.start();
