@@ -13,6 +13,7 @@ public abstract class ComponentViewAnimation extends View {
   protected final int parentWidth;
   protected final int mainColor;
   protected final int secondaryColor;
+
   protected float parentCenter;
   protected float circleRadius;
   protected int strokeWidth;

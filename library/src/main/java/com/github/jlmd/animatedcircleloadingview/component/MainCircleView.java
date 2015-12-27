@@ -33,6 +33,7 @@ public class MainCircleView extends ComponentViewAnimation {
     paint.setColor(mainColor);
     paint.setStrokeWidth(strokeWidth);
     paint.setStyle(Paint.Style.FILL_AND_STROKE);
+    paint.setAntiAlias(true);
   }
 
   private void initOval() {

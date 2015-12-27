@@ -5,7 +5,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.LightingColorFilter;
 import android.graphics.Paint;
+
 import com.github.jlmd.animatedcircleloadingview.component.ComponentViewAnimation;
 
 /**
@@ -13,79 +16,86 @@ import com.github.jlmd.animatedcircleloadingview.component.ComponentViewAnimatio
  */
 public abstract class FinishedView extends ComponentViewAnimation {
 
-  private static final int MIN_IMAGE_SIZE = 1;
-  private int maxImageSize;
-  private int circleMaxRadius;
-  private Bitmap originalFinishedBitmap;
-  private float currentCircleRadius;
-  private int imageSize;
+    private static final int MIN_IMAGE_SIZE = 1;
+    private int maxImageSize;
+    private int circleMaxRadius;
+    private Bitmap originalFinishedBitmap;
+    private float currentCircleRadius;
+    private int imageSize;
+    protected final int tintColor;
 
-  public FinishedView(Context context, int parentWidth, int mainColor, int secondaryColor) {
-    super(context, parentWidth, mainColor, secondaryColor);
-    init();
-  }
+    public FinishedView(Context context, int parentWidth, int mainColor, int secondaryColor, int tintColor) {
+        super(context, parentWidth, mainColor, secondaryColor);
+        this.tintColor = tintColor;
+        init();
+    }
 
-  private void init() {
-    maxImageSize = (140 * parentWidth) / 700;
-    circleMaxRadius = (140 * parentWidth) / 700;
-    currentCircleRadius = circleRadius;
-    imageSize = MIN_IMAGE_SIZE;
-    originalFinishedBitmap = BitmapFactory.decodeResource(getResources(), getDrawable());
-  }
+    private void init() {
+        maxImageSize = (140 * parentWidth) / 700;
+        circleMaxRadius = (140 * parentWidth) / 700;
+        currentCircleRadius = circleRadius;
+        imageSize = MIN_IMAGE_SIZE;
+        originalFinishedBitmap = BitmapFactory.decodeResource(getResources(), getDrawable());
+    }
 
-  @Override
-  protected void onDraw(Canvas canvas) {
-    super.onDraw(canvas);
-    drawCircle(canvas);
-    drawCheckedMark(canvas);
-  }
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        drawCircle(canvas);
+        drawCheckedMark(canvas);
+    }
 
-  private void drawCheckedMark(Canvas canvas) {
-    Bitmap bitmap = Bitmap.createScaledBitmap(originalFinishedBitmap, imageSize, imageSize, true);
-    canvas.drawBitmap(bitmap, parentCenter - bitmap.getWidth() / 2,
-        parentCenter - bitmap.getHeight() / 2, new Paint());
-  }
+    private void drawCheckedMark(Canvas canvas) {
+        Paint paint = new Paint();
+        paint.setColorFilter(new LightingColorFilter(getDrawableTintColor(), 0));
 
-  public void drawCircle(Canvas canvas) {
-    Paint paint = new Paint();
-    paint.setStyle(Paint.Style.FILL_AND_STROKE);
-    paint.setColor(getCircleColor());
-    canvas.drawCircle(parentCenter, parentCenter, currentCircleRadius, paint);
-  }
+        Bitmap bitmap = Bitmap.createScaledBitmap(originalFinishedBitmap, imageSize, imageSize, true);
+        canvas.drawBitmap(bitmap, parentCenter - bitmap.getWidth() / 2,
+                parentCenter - bitmap.getHeight() / 2, paint);
+    }
 
-  public void startScaleAnimation() {
-    startScaleCircleAnimation();
-    startScaleImageAnimation();
-  }
+    public void drawCircle(Canvas canvas) {
+        Paint paint = new Paint();
+        paint.setStyle(Paint.Style.FILL_AND_STROKE);
+        paint.setColor(getCircleColor());
+        canvas.drawCircle(parentCenter, parentCenter, currentCircleRadius, paint);
+    }
 
-  private void startScaleCircleAnimation() {
-    ValueAnimator valueCircleAnimator =
-        ValueAnimator.ofFloat(circleRadius + strokeWidth / 2, circleMaxRadius);
-    valueCircleAnimator.setDuration(1000);
-    valueCircleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-      @Override
-      public void onAnimationUpdate(ValueAnimator animation) {
-        currentCircleRadius = (float) animation.getAnimatedValue();
-        invalidate();
-      }
-    });
-    valueCircleAnimator.start();
-  }
+    public void startScaleAnimation() {
+        startScaleCircleAnimation();
+        startScaleImageAnimation();
+    }
 
-  private void startScaleImageAnimation() {
-    ValueAnimator valueImageAnimator = ValueAnimator.ofInt(MIN_IMAGE_SIZE, maxImageSize);
-    valueImageAnimator.setDuration(1000);
-    valueImageAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-      @Override
-      public void onAnimationUpdate(ValueAnimator animation) {
-        imageSize = (int) animation.getAnimatedValue();
-        invalidate();
-      }
-    });
-    valueImageAnimator.start();
-  }
+    private void startScaleCircleAnimation() {
+        ValueAnimator valueCircleAnimator =
+                ValueAnimator.ofFloat(circleRadius + strokeWidth / 2, circleMaxRadius);
+        valueCircleAnimator.setDuration(1000);
+        valueCircleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                currentCircleRadius = (float) animation.getAnimatedValue();
+                invalidate();
+            }
+        });
+        valueCircleAnimator.start();
+    }
 
-  protected abstract int getDrawable();
+    private void startScaleImageAnimation() {
+        ValueAnimator valueImageAnimator = ValueAnimator.ofInt(MIN_IMAGE_SIZE, maxImageSize);
+        valueImageAnimator.setDuration(1000);
+        valueImageAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                imageSize = (int) animation.getAnimatedValue();
+                invalidate();
+            }
+        });
+        valueImageAnimator.start();
+    }
 
-  protected abstract int getCircleColor();
+    protected abstract int getDrawable();
+
+    protected abstract int getDrawableTintColor();
+
+    protected abstract int getCircleColor();
 }

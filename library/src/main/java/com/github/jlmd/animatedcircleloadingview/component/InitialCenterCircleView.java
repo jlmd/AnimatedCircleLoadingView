@@ -14,6 +14,8 @@ import com.github.jlmd.animatedcircleloadingview.animator.AnimationState;
  */
 public class InitialCenterCircleView extends ComponentViewAnimation {
 
+  private Paint paint;
+  private RectF oval;
   private float minRadius;
   private float currentCircleWidth;
   private float currentCircleHeight;
@@ -25,6 +27,19 @@ public class InitialCenterCircleView extends ComponentViewAnimation {
   }
 
   private void init() {
+    initOval();
+    initPaint();
+  }
+
+  private void initPaint() {
+    paint = new Paint();
+    paint.setStyle(Paint.Style.FILL_AND_STROKE);
+    paint.setColor(mainColor);
+    paint.setAntiAlias(true);
+  }
+
+  private void initOval() {
+    oval = new RectF();
     minRadius = (15 * parentWidth) / 700;
     currentCircleWidth = minRadius;
     currentCircleHeight = minRadius;
@@ -37,9 +52,7 @@ public class InitialCenterCircleView extends ComponentViewAnimation {
   }
 
   public void drawCircle(Canvas canvas) {
-    Paint paint = new Paint();
-    paint.setStyle(Paint.Style.FILL_AND_STROKE);
-    paint.setColor(mainColor);
+
     RectF oval = new RectF();
     oval.set(parentCenter - currentCircleWidth, parentCenter - currentCircleHeight,
         parentCenter + currentCircleWidth, parentCenter + currentCircleHeight);

@@ -33,6 +33,7 @@ public class RightCircleView extends ComponentViewAnimation {
     paint = new Paint();
     paint.setStyle(Paint.Style.FILL);
     paint.setColor(secondaryColor);
+    paint.setAntiAlias(true);
   }
 
   @Override

@@ -42,6 +42,7 @@ public class SideArcsView extends ComponentViewAnimation {
     paint.setColor(mainColor);
     paint.setStrokeWidth(strokeWidth);
     paint.setStyle(Paint.Style.STROKE);
+    paint.setAntiAlias(true);
   }
 
   private void initOval() {
