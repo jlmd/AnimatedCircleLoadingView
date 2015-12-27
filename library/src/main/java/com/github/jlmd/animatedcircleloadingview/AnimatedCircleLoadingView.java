@@ -22,6 +22,7 @@ public class AnimatedCircleLoadingView extends FrameLayout {
 
   private static final String DEFAULT_HEX_MAIN_COLOR = "#FF9A00";
   private static final String DEFAULT_HEX_SECONDARY_COLOR = "#BDBDBD";
+  private static final String DEFAULT_HEX_TINT_COLOR = "#FFFFFF";
   private static final String DEFAULT_HEX_TEXT_COLOR = "#FFFFFF";
   private final Context context;
   private InitialCenterCircleView initialCenterCircleView;
@@ -40,6 +41,8 @@ public class AnimatedCircleLoadingView extends FrameLayout {
   private boolean stopAnimationFailure;
   private int mainColor;
   private int secondaryColor;
+  private int checkMarkTintColor;
+  private int failureMarkTintColor;
   private int textColor;
 
   public AnimatedCircleLoadingView(Context context) {
@@ -66,6 +69,12 @@ public class AnimatedCircleLoadingView extends FrameLayout {
         Color.parseColor(DEFAULT_HEX_MAIN_COLOR));
     secondaryColor = attributes.getColor(R.styleable.AnimatedCircleLoadingView_secondaryColor,
         Color.parseColor(DEFAULT_HEX_SECONDARY_COLOR));
+    checkMarkTintColor =
+        attributes.getColor(R.styleable.AnimatedCircleLoadingView_checkMarkTintColor,
+            Color.parseColor(DEFAULT_HEX_TINT_COLOR));
+    failureMarkTintColor =
+        attributes.getColor(R.styleable.AnimatedCircleLoadingView_failureMarkTintColor,
+            Color.parseColor(DEFAULT_HEX_TINT_COLOR));
     textColor = attributes.getColor(R.styleable.AnimatedCircleLoadingView_textColor,
         Color.parseColor(DEFAULT_HEX_TEXT_COLOR));
     attributes.recycle();
@@ -118,8 +127,10 @@ public class AnimatedCircleLoadingView extends FrameLayout {
     sideArcsView = new SideArcsView(context, width, mainColor, secondaryColor);
     topCircleBorderView = new TopCircleBorderView(context, width, mainColor, secondaryColor);
     mainCircleView = new MainCircleView(context, width, mainColor, secondaryColor);
-    finishedOkView = new FinishedOkView(context, width, mainColor, secondaryColor);
-    finishedFailureView = new FinishedFailureView(context, width, mainColor, secondaryColor);
+    finishedOkView =
+        new FinishedOkView(context, width, mainColor, secondaryColor, checkMarkTintColor);
+    finishedFailureView =
+        new FinishedFailureView(context, width, mainColor, secondaryColor, failureMarkTintColor);
     percentIndicatorView = new PercentIndicatorView(context, width, textColor);
   }
 
@@ -177,7 +188,9 @@ public class AnimatedCircleLoadingView extends FrameLayout {
   }
 
   public void resetLoading() {
-    viewAnimator.resetAnimator();
+    if (viewAnimator != null) {
+      viewAnimator.resetAnimator();
+    }
     setPercent(0);
   }
 

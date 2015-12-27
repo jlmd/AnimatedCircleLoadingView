@@ -6,7 +6,9 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.LightingColorFilter;
 import android.graphics.Paint;
+import android.util.Log;
 import com.github.jlmd.animatedcircleloadingview.animator.AnimationState;
 import com.github.jlmd.animatedcircleloadingview.component.ComponentViewAnimation;
 
@@ -16,14 +18,17 @@ import com.github.jlmd.animatedcircleloadingview.component.ComponentViewAnimatio
 public abstract class FinishedView extends ComponentViewAnimation {
 
   private static final int MIN_IMAGE_SIZE = 1;
+  protected final int tintColor;
   private int maxImageSize;
   private int circleMaxRadius;
   private Bitmap originalFinishedBitmap;
   private float currentCircleRadius;
   private int imageSize;
 
-  public FinishedView(Context context, int parentWidth, int mainColor, int secondaryColor) {
+  public FinishedView(Context context, int parentWidth, int mainColor, int secondaryColor,
+      int tintColor) {
     super(context, parentWidth, mainColor, secondaryColor);
+    this.tintColor = tintColor;
     init();
   }
 
@@ -43,15 +48,19 @@ public abstract class FinishedView extends ComponentViewAnimation {
   }
 
   private void drawCheckedMark(Canvas canvas) {
+    Paint paint = new Paint();
+    paint.setColorFilter(new LightingColorFilter(getDrawableTintColor(), 0));
+
     Bitmap bitmap = Bitmap.createScaledBitmap(originalFinishedBitmap, imageSize, imageSize, true);
     canvas.drawBitmap(bitmap, parentCenter - bitmap.getWidth() / 2,
-        parentCenter - bitmap.getHeight() / 2, new Paint());
+        parentCenter - bitmap.getHeight() / 2, paint);
   }
 
   public void drawCircle(Canvas canvas) {
     Paint paint = new Paint();
     paint.setStyle(Paint.Style.FILL_AND_STROKE);
     paint.setColor(getCircleColor());
+    paint.setAntiAlias(true);
     canvas.drawCircle(parentCenter, parentCenter, currentCircleRadius, paint);
   }
 
@@ -109,6 +118,8 @@ public abstract class FinishedView extends ComponentViewAnimation {
   }
 
   protected abstract int getDrawable();
+
+  protected abstract int getDrawableTintColor();
 
   protected abstract int getCircleColor();
 }
