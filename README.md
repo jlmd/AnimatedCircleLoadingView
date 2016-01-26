@@ -83,7 +83,7 @@ repositories {
 ```
 Add dependency to your build.gradle
 ```groovy
-compile 'com.github.jlmd:AnimatedCircleLoadingView:1.1.4@aar'
+compile 'com.github.jlmd:AnimatedCircleLoadingView:1.1.5@aar'
 ```
 
 Developed by
