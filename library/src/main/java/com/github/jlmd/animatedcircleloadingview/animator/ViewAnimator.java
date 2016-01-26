@@ -187,7 +187,8 @@ public class ViewAnimator implements ComponentViewAnimation.StateListener {
 
   private void onAnimationEnd() {
     if (animationListener != null) {
-      animationListener.onAnimationEnd();
+      boolean success = finishedState == AnimationState.FINISHED_OK;
+      animationListener.onAnimationEnd(success);
     }
   }
 }

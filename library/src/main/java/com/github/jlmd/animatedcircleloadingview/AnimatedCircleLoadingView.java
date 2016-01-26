@@ -200,6 +200,6 @@ public class AnimatedCircleLoadingView extends FrameLayout {
 
   public interface AnimationListener {
 
-    void onAnimationEnd();
+    void onAnimationEnd(boolean success);
   }
 }
