@@ -36,7 +36,7 @@ public abstract class ComponentViewAnimation extends View {
   }
 
   public void hideView() {
-    setVisibility(View.INVISIBLE);
+    setVisibility(View.GONE);
   }
 
   public void showView() {
