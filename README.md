@@ -24,9 +24,9 @@ Add AnimatedCircleLoadingView to your layout and define mainColor and secondaryC
     android:layout_height="250dp"
     android:background="@color/background"
     android:layout_centerInParent="true"
-    app:mainColor="@color/main_color"
-    app:secondaryColor="@color/secondary_color"
-    app:textColor="@android:color/white"
+    app:animCircleLoadingView_mainColor="@color/main_color"
+    app:animCircleLoadingView_secondaryColor="@color/secondary_color"
+    app:animCircleLoadingView_textColor="@android:color/white"
     />
 ```
 
