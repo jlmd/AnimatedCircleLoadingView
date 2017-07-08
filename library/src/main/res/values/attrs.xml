@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="AnimatedCircleLoadingView">
-        <attr name="mainColor" format="color" localization="suggested" />
-        <attr name="secondaryColor" format="color" localization="suggested" />
-        <attr name="checkMarkTintColor" format="color" localization="suggested" />
-        <attr name="failureMarkTintColor" format="color" localization="suggested" />
-        <attr name="textColor" format="color" localization="suggested" />
+        <attr name="animCircleLoadingView_mainColor" format="color" localization="suggested" />
+        <attr name="animCircleLoadingView_secondaryColor" format="color" localization="suggested" />
+        <attr name="animCircleLoadingView_checkMarkTintColor" format="color" localization="suggested" />
+        <attr name="animCircleLoadingView_failureMarkTintColor" format="color" localization="suggested" />
+        <attr name="animCircleLoadingView_textColor" format="color" localization="suggested" />
     </declare-styleable>
 </resources>

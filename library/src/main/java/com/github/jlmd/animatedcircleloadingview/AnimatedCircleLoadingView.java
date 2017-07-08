@@ -65,17 +65,17 @@ public class AnimatedCircleLoadingView extends FrameLayout {
   private void initAttributes(AttributeSet attrs) {
     TypedArray attributes =
         getContext().obtainStyledAttributes(attrs, R.styleable.AnimatedCircleLoadingView);
-    mainColor = attributes.getColor(R.styleable.AnimatedCircleLoadingView_mainColor,
+    mainColor = attributes.getColor(R.styleable.AnimatedCircleLoadingView_animCircleLoadingView_mainColor,
         Color.parseColor(DEFAULT_HEX_MAIN_COLOR));
-    secondaryColor = attributes.getColor(R.styleable.AnimatedCircleLoadingView_secondaryColor,
+    secondaryColor = attributes.getColor(R.styleable.AnimatedCircleLoadingView_animCircleLoadingView_secondaryColor,
         Color.parseColor(DEFAULT_HEX_SECONDARY_COLOR));
     checkMarkTintColor =
-        attributes.getColor(R.styleable.AnimatedCircleLoadingView_checkMarkTintColor,
+        attributes.getColor(R.styleable.AnimatedCircleLoadingView_animCircleLoadingView_checkMarkTintColor,
             Color.parseColor(DEFAULT_HEX_TINT_COLOR));
     failureMarkTintColor =
-        attributes.getColor(R.styleable.AnimatedCircleLoadingView_failureMarkTintColor,
+        attributes.getColor(R.styleable.AnimatedCircleLoadingView_animCircleLoadingView_failureMarkTintColor,
             Color.parseColor(DEFAULT_HEX_TINT_COLOR));
-    textColor = attributes.getColor(R.styleable.AnimatedCircleLoadingView_textColor,
+    textColor = attributes.getColor(R.styleable.AnimatedCircleLoadingView_animCircleLoadingView_textColor,
         Color.parseColor(DEFAULT_HEX_TEXT_COLOR));
     attributes.recycle();
   }
